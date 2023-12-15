@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from drf.serielizers import NewsSerializer, CommentSerializer, UserProfileSerializer, CustomUserSerializer, InterestSerializer, PublisherSerializer, AuthorSerializer
 from drf.models import News, CustomUser, Interest, UserProfile, Publisher, Author, Comment
+from django.contrib.auth import authenticate
 
 
 @api_view(['GET', 'POST'])
@@ -23,12 +24,12 @@ def news_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def news_detail(request, pk):
+def news_detail(request, id):
     """
     Retrieve, update or delete a news instance.
     """
     try:
-        news = News.objects.get(pk=pk)
+        news = News.objects.get(id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -39,7 +40,7 @@ def news_detail(request, pk):
     elif request.method == 'PUT':
         serializer = NewsSerializer(news, data=request.data)
         if serializer.is_valid():
-            serializer.save(published_by=request.user)
+            serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -47,6 +48,132 @@ def news_detail(request, pk):
         news.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET', 'POST'])
+def user_list(request):
+    """
+    List all users, or create a new user.
+    """
+    if request.method == 'GET':
+        users = CustomUser.objects.all()
+        serializer = CustomUserSerializer(users, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def user_detail(request, id):
+    """
+    Retrieve, update or delete a user instance.
+    """
+    try:
+        user = CustomUser.objects.get(id=id)
+    except CustomUser.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = CustomUserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        user.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def author_list(request):
+    """
+    List all authors, or create a new author.
+    """
+    if request.method == 'GET':
+        authors = Author.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def author_detail(request, id):
+    """
+    Retrieve, update or delete a author instance.
+    """
+    try:
+        author = Author.objects.get(id=id)
+    except Author.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AuthorSerializer(author)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = AuthorSerializer(author, data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        author.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def publisher_list(request):
+    """
+    List all publishers, or create a new publisher.
+    """
+    if request.method == 'GET':
+        publishers = Publisher.objects.all()
+        serializer = PublisherSerializer(publishers, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = PublisherSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def publisher_detail(request, id):
+    """
+    Retrieve, update or delete a publisher instance.
+    """
+    try:
+        publisher = Publisher.objects.get(id=id)
+    except Publisher.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = PublisherSerializer(publisher)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = PublisherSerializer(publisher, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        publisher.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 @api_view(['GET'])
 def news_by_author(request, author_id):
     """
@@ -319,3 +446,25 @@ def user_profile_by_author(request, author_id):
     if request.method == 'GET':
         serializer = UserProfileSerializer(user_profile)
         return Response(serializer.data)
+
+
+@api_view(['Post'])
+def login(request):
+    """
+    Login a user.
+    """
+    if request.method == 'POST':
+        username = request.data['username']
+        password = request.data['password']
+        #user = CustomUser.objects.get(username=username)
+        user = authenticate(username=username, password=password)
+        #print(user.password)
+        if user != None:
+            serializer = CustomUserSerializer(user)
+            #if user.is_author:
+                #author = Author.objects.get(user=user)
+                #serializer = AuthorSerializer(author)
+            #serializer = AuthorSerializer(user.author)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)

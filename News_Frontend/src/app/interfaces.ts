@@ -1,0 +1,34 @@
+
+export interface user {
+    id: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    is_admin: boolean;
+    is_author: boolean;
+}
+
+export interface publisher {
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+    type: string;
+}
+
+export interface author {
+    id: number;
+    user: number;
+    publisher: number;
+}
+
+
+
+export interface news {
+    id: number;
+    title: string;
+    content: string;
+    published_by: number;
+    //date: string;
+}

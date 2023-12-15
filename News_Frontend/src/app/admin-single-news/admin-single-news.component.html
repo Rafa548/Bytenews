@@ -1,0 +1,15 @@
+<div *ngIf="newsArticle">
+  <h1>{{ newsArticle.title }}</h1>
+  <p>{{ newsArticle.content }}</p>
+  <p>Published on: {{ p_name }}</p>
+  <p>Published by: {{ u_name }}</p>
+
+  <button *ngIf="!editMode" (click)="toggleEditMode()">Edit</button>
+  <button *ngIf="editMode" (click)="saveChanges()">Save</button>
+
+  <div *ngIf="editMode">
+    <!-- Editable fields -->
+    <input type="text" [(ngModel)]="newsArticle.title">
+    <textarea [(ngModel)]="newsArticle.content"></textarea>
+  </div>
+</div>

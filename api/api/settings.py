@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf.apps.DrfConfig',
     'rest_framework',
     'corsheaders',
-    'drf.apps.DrfConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -135,4 +136,7 @@ REST_FRAMEWORK = {
 }
 
 #CORS Configuration
-Cors_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True
+
+#Custom User Model
+AUTH_USER_MODEL = 'drf.CustomUser'

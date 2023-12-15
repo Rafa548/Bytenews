@@ -4,7 +4,7 @@ from .models import CustomUser, Interest, UserProfile, Publisher, Author, News, 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'is_admin')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'is_admin', 'is_author')
 
 class InterestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,7 +29,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ('id', 'title', 'content', 'published_by')
+        fields = ('id', 'title', 'content', 'published_by', 'tags')
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
