@@ -1,6 +1,6 @@
-
 <div *ngIf="newsArticle" class="container mt-5">
   <h1 class="display-4 mb-4">{{ newsArticle.title }}</h1>
+  <p class="lead">{{ newsArticle.description }}</p>
   <p class="lead">{{ newsArticle.content }}</p>
   <p class="text-muted mt-4">Published on: {{ p_name }}</p>
   <p class="text-muted">Published by: {{ u_name }}</p>
@@ -13,6 +13,7 @@
   <div *ngIf="editMode" class="mt-4">
     <!-- Editable fields -->
     <input type="text" [(ngModel)]="newsArticle.title" class="form-control mb-3">
+    <textarea [(ngModel)]="newsArticle.description" class="form-control" rows="4"></textarea>
     <textarea [(ngModel)]="newsArticle.content" class="form-control" rows="4"></textarea>
   </div>
 </div>

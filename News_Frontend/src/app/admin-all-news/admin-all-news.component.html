@@ -1,20 +1,14 @@
 <div class="container mt-5">
   <h2>News</h2>
-
   <!-- Display news articles as cards in rows -->
   <div class="row mt-4">
-    <div class="col-md-4 mb-4" *ngFor="let article of news" (click)="navigateToNewDetails(article.id)">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ article.title }}</h5>
-          <p class="card-text">{{ article.description }}</p>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-danger delete-button" (click)="deleteNew($event, article.id)">
-            <i class="fas fa-trash-alt"></i> Delete
-          </button>
-        </div>
-      </div>
+    <div class="col-md-4 mb-4" *ngFor="let article of news">
+      <app-card
+        [title]="article.title"
+        [description]="article.description"
+        (viewClicked)="navigateToNewDetails(article.id)"
+        (deleteClicked)="deleteNew(article.id)">
+      </app-card>
     </div>
   </div>
 </div>
