@@ -29,7 +29,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
-        fields = ('id', 'title', 'content', 'published_by', 'tags')
+        fields = ('id', 'title','description','content', 'published_by', 'tags')
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

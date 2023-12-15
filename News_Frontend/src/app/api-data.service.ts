@@ -30,6 +30,12 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async deleteNew(id: number): Promise<any> {
+    const url = this.baseURL + '/news/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
+  }
+
   async updateNew(news : news): Promise<news> {
     const id = news.id;
     const url = this.baseURL + '/news/' + id;

@@ -24,8 +24,6 @@ export class AdminAllNewsComponent {
   constructor(private router: Router) {
     this.ApiDataService.getNews().then((news : news[]) => {
       this.news = news;
-      //console.log(classes);
-
     });
   }
 
@@ -34,16 +32,13 @@ export class AdminAllNewsComponent {
   }
 
   deleteNew(event: Event, id: number) {
-    console.log("hello")
-    //event.stopPropagation();
-    //this.ApiDataService.deleteClass(localStorage.getItem('token'), classname).then((response : any) => {
-      //console.log(response);
-      //this.ApiDataService.getClasses(localStorage.getItem('token')).then((classes : any[]) => {
-        //this.classes = classes;
-        //console.log(classes);
-      //});
-    //});
-
+    event.stopPropagation();
+    //console.log("hello")
+    this.ApiDataService.deleteNew(id).then((response : any) => {
+      this.ApiDataService.getNews().then((news : news[]) => {
+        this.news = news;
+      });
+    });
   }
 
 }

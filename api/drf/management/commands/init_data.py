@@ -43,7 +43,7 @@ class Command(BaseCommand):
         interests = Interest.objects.all()[:5]
         for i in range(1, 31):
             author = authors[i % 3]
-            news = News.objects.create(title=f'News {i}', content=f'Content of news {i}', published_by=author)
+            news = News.objects.create(title=f'News {i}',description='quick one', content=f'Content of news {i}', published_by=author)
             news.tags.set(interests)
 
         self.stdout.write(self.style.SUCCESS('Data populated successfully.'))

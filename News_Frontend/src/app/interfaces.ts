@@ -28,6 +28,7 @@ export interface author {
 export interface news {
     id: number;
     title: string;
+    description: string;
     content: string;
     published_by: number;
     //date: string;

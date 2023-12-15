@@ -60,6 +60,7 @@ class Author(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=200)
+    description = models.TextField()
     content = models.TextField()
     published_by = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True, related_name='published_news')
     tags = models.ManyToManyField(Interest, blank=True)

@@ -1,15 +1,18 @@
-<div *ngIf="newsArticle">
-  <h1>{{ newsArticle.title }}</h1>
-  <p>{{ newsArticle.content }}</p>
-  <p>Published on: {{ p_name }}</p>
-  <p>Published by: {{ u_name }}</p>
 
-  <button *ngIf="!editMode" (click)="toggleEditMode()">Edit</button>
-  <button *ngIf="editMode" (click)="saveChanges()">Save</button>
+<div *ngIf="newsArticle" class="container mt-5">
+  <h1 class="display-4 mb-4">{{ newsArticle.title }}</h1>
+  <p class="lead">{{ newsArticle.content }}</p>
+  <p class="text-muted mt-4">Published on: {{ p_name }}</p>
+  <p class="text-muted">Published by: {{ u_name }}</p>
 
-  <div *ngIf="editMode">
+  <div class="mt-4">
+    <button *ngIf="!editMode" (click)="toggleEditMode()" class="btn btn-primary mr-2">Edit</button>
+    <button *ngIf="editMode" (click)="saveChanges()" class="btn btn-success mr-2">Save</button>
+  </div>
+
+  <div *ngIf="editMode" class="mt-4">
     <!-- Editable fields -->
-    <input type="text" [(ngModel)]="newsArticle.title">
-    <textarea [(ngModel)]="newsArticle.content"></textarea>
+    <input type="text" [(ngModel)]="newsArticle.title" class="form-control mb-3">
+    <textarea [(ngModel)]="newsArticle.content" class="form-control" rows="4"></textarea>
   </div>
 </div>

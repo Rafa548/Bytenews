@@ -1,17 +1,20 @@
-<div class="container">
+<div class="container mt-5">
   <h2>News</h2>
 
-  <!-- Display classes information as smaller cards in rows -->
-  <div class="class-row">
-    <div class="class-card" *ngFor="let new of news" (click)="navigateToNewDetails(new.id)">
-      <!-- Display class name -->
-      <p>{{ new.title }}</p>
-
-      <!-- Delete button with Font Awesome trash icon -->
-      <button class="delete-button" (click)="deleteNew($event, new.id)">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  <!-- Display news articles as cards in rows -->
+  <div class="row mt-4">
+    <div class="col-md-4 mb-4" *ngFor="let article of news" (click)="navigateToNewDetails(article.id)">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ article.title }}</h5>
+          <p class="card-text">{{ article.description }}</p>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-danger delete-button" (click)="deleteNew($event, article.id)">
+            <i class="fas fa-trash-alt"></i> Delete
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-
