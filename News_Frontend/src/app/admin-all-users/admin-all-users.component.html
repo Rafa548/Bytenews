@@ -1,17 +1,8 @@
-<app-navbar></app-navbar>
-<div class="container mt-5">
-  <h2>Users:</h2>
-
-  <div class="row mt-4">
-    <div class="col-md-4 mb-4" *ngFor="let user of users">
-      <app-card
-        [title]="user.username"
-        [showIcon]="user.is_author"
-        (viewClicked)="navigateToUserDetails(user.id)"
-        (deleteClicked)="deleteUser(user.id)">
-      </app-card>
-    </div>
-  </div>
-
-
-</div>
+<app-admin-all-details-page
+  [title]="'News:'"
+  [items]="users"
+  [is_user]="true"
+  (childViewEvent)="navigateToUserDetails($event)"
+  (childDeleteEvent)="deleteUser($event)"
+  (ScroolToBottomClicked)="scrollToBottom()">
+</app-admin-all-details-page>

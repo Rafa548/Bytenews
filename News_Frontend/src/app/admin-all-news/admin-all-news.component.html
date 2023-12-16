@@ -1,14 +1,10 @@
-<div class="container mt-5">
-  <h2>News</h2>
-  <!-- Display news articles as cards in rows -->
-  <div class="row mt-4">
-    <div class="col-md-4 mb-4" *ngFor="let article of news">
-      <app-card
-        [title]="article.title"
-        [description]="article.description"
-        (viewClicked)="navigateToNewDetails(article.id)"
-        (deleteClicked)="deleteNew(article.id)">
-      </app-card>
-    </div>
-  </div>
-</div>
+<app-admin-all-details-page
+              [title]="'News:'"
+              [items]="news"
+              [is_news]="true"
+              (childViewEvent)="navigateToNewDetails($event)"
+              (childDeleteEvent)="deleteNew($event)"
+              (ScroolToBottomClicked)="scrollToBottom()">
+</app-admin-all-details-page>
+
+

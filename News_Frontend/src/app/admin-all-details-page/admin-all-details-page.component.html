@@ -1,0 +1,53 @@
+<app-navbar></app-navbar>
+<div class="container mt-5">
+  <h2>{{title}}</h2>
+  <!-- Display news articles as cards in rows -->
+  <div class="row mt-4" *ngIf="is_news">
+    <div class="col-md-4 mb-4" *ngFor="let article of items" >
+      <app-card
+        [title]="article.title"
+        [description]="article.description"
+        (viewClicked)="handleViewClickEvent(article.id)"
+        (deleteClicked)="handleDeleteClickEvent(article.id)">
+      </app-card>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <button class="btn btn-success btn-lg">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4" *ngIf="is_user">
+    <div class="col-md-4 mb-4" *ngFor="let user of items">
+      <app-card
+        [title]="user.username"
+        [showIcon]="user.is_author"
+        (viewClicked)="handleViewClickEvent(user.id)"
+        (deleteClicked)="handleDeleteClickEvent(user.id)">
+      </app-card>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <button class="btn btn-success btn-lg">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5">
+    <div class="scroll-to-bottom">
+      <button class="btn btn-primary" (click)="ScrollToBottomClick()">
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </div>
+  </div>
+</div>

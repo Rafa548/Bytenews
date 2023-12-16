@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {CardComponent} from "../card/card.component";
 import {NgForOf} from "@angular/common";
 import {NavbarComponent} from "../navbar/navbar.component";
+import {AdminAllDetailsPageComponent} from "../admin-all-details-page/admin-all-details-page.component";
 
 @Component({
   selector: 'app-admin-all-users',
@@ -12,7 +13,8 @@ import {NavbarComponent} from "../navbar/navbar.component";
   imports: [
     CardComponent,
     NgForOf,
-    NavbarComponent
+    NavbarComponent,
+    AdminAllDetailsPageComponent
   ],
   templateUrl: './admin-all-users.component.html',
   styleUrl: './admin-all-users.component.css'
@@ -29,6 +31,10 @@ export class AdminAllUsersComponent {
 
   navigateToUserDetails(userId: number) {
     this.router.navigate(['admin/users', userId]); // Navigate to a route like '/user/1' based on the user ID
+  }
+
+  scrollToBottom() {
+    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
   deleteUser(userId: number) {

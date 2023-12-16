@@ -4,6 +4,7 @@ import { ApiDataService } from '../api-data.service';
 import {NgForOf, NgIf} from "@angular/common";
 import {news} from '../interfaces'
 import {CardComponent} from "../card/card.component";
+import {AdminAllDetailsPageComponent} from "../admin-all-details-page/admin-all-details-page.component";
 
 @Component({
   selector: 'app-admin-all-news',
@@ -11,7 +12,8 @@ import {CardComponent} from "../card/card.component";
   imports: [
     NgForOf,
     NgIf,
-    CardComponent
+    CardComponent,
+    AdminAllDetailsPageComponent
   ],
   templateUrl: './admin-all-news.component.html',
   styleUrl: './admin-all-news.component.css'
@@ -33,12 +35,18 @@ export class AdminAllNewsComponent {
     this.router.navigate(['admin/new', newsId]); // Navigate to a route like '/class/1' based on the class ID
   }
 
+
+
   deleteNew(id: number) {
     this.ApiDataService.deleteNew(id).then((response : any) => {
       this.ApiDataService.getNews().then((news : news[]) => {
         this.news = news;
       });
     });
+  }
+
+  scrollToBottom() {
+    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
   }
 
 }
