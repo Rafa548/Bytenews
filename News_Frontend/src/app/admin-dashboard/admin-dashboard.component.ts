@@ -11,9 +11,6 @@ import { CommonModule, NgFor} from '@angular/common';
   styleUrl: './admin-dashboard.component.css'
 })
 export class AdminDashboardComponent {
-  notifications: any[] = [];
-  private subscription: any;
-
   constructor(private router: Router) {
   }
 
@@ -23,8 +20,8 @@ export class AdminDashboardComponent {
       case 'news':
         this.router.navigate(['/admin/news']); // Change the route path as needed
         break;
-      case 'students':
-        this.router.navigate(['/admin/students']); // Change the route path as needed
+      case 'users':
+        this.router.navigate(['/admin/users']); // Change the route path as needed
         break;
       case 'teachers':
         this.router.navigate(['/admin/teachers']); // Change the route path as needed

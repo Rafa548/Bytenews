@@ -43,10 +43,22 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getUsers(): Promise<user[]> {
+    const url = this.baseURL + '/users';
+    const data = await fetch(url, {method: 'GET' });
+    return await data.json() ?? undefined;
+  }
+
   async getUser(id: number): Promise<user> {
     const url = this.baseURL + '/users/' + id;
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
+  }
+
+  async deleteUser(id: number): Promise<any> {
+    const url = this.baseURL + '/users/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
   }
 
   async getAuthor(id: number): Promise<author> {
@@ -67,4 +79,15 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getAuthorNews(id:number): Promise<news[]> {
+    const url = this.baseURL + '/authors/' + id + '/news';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async registerUser(json:{email:string,password:string,username:string,firstName:string,lastName:string}): Promise<any> {
+    const url = this.baseURL + '/register';
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
 }

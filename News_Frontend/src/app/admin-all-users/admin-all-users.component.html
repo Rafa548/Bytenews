@@ -1,0 +1,8 @@
+<app-admin-all-details-page
+  [title]="'News:'"
+  [items]="users"
+  [is_user]="true"
+  (childViewEvent)="navigateToUserDetails($event)"
+  (childDeleteEvent)="deleteUser($event)"
+  (ScroolToBottomClicked)="scrollToBottom()">
+</app-admin-all-details-page>
