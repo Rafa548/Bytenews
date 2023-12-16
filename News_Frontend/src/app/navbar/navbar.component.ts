@@ -1,6 +1,7 @@
 import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component , inject} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import { AuthService } from '../auth.service';
 
 
 
@@ -15,12 +16,17 @@ export class NavbarComponent {
   isLoggedIn: boolean = localStorage.getItem('token') !== null;
   showDropdown: boolean = false;
   showNotifications = false;
+  AuthService = inject(AuthService);
+  currentUser = this.AuthService.getUser();
+  
 
   toggleNotifications(event: Event) {
     event.stopPropagation(); // Prevent default event behavior to avoid toggling dropdown and closing it immediately
     this.showNotifications = !this.showNotifications;
   }
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    console.log(this.currentUser);
+  }
 
   login() {
     // Implement your login logic here
