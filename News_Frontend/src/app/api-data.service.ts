@@ -84,4 +84,10 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
+
+  async registerUser(json:{email:string,password:string,username:string,firstName:string,lastName:string}): Promise<any> {
+    const url = this.baseURL + '/register';
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
 }

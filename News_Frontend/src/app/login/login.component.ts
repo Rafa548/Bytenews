@@ -1,6 +1,6 @@
 import {Component, inject, signal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {NgIf} from "@angular/common";
 import { ApiDataService } from '../api-data.service';
 import { AuthService } from '../auth.service';
@@ -10,7 +10,8 @@ import { AuthService } from '../auth.service';
   standalone: true,
   imports: [
     FormsModule,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

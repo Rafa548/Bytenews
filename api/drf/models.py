@@ -3,7 +3,7 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     is_admin = models.BooleanField(default=False)
-    is_author = models.BooleanField(default=False)
+    is_author = models.BooleanField(default=False)  
     # Custom related_name for groups and user_permissions
     groups = models.ManyToManyField(
         'auth.Group',

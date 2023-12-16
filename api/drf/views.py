@@ -468,3 +468,32 @@ def login(request):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['POST'])
+def register(request):
+    """
+    Register a user.
+    """
+    if request.method == 'POST':
+        username = request.data['username']
+        password = request.data['password']
+        email = request.data['email']
+        first_name = request.data['firstName']
+        last_name = request.data['lastName']
+        is_author = False
+        is_admin = False
+        user = CustomUser.objects.create_user(
+            username=username,
+            password=password,
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            is_author=is_author,
+            is_admin=is_admin
+        )
+        serializer = CustomUserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+

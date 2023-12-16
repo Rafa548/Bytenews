@@ -7,9 +7,11 @@ import {AdminAllUsersComponent} from "./admin-all-users/admin-all-users.componen
 import {AdminSingleUserComponent} from "./admin-single-user/admin-single-user.component";
 import {AdminAuthGuard} from "./admin-auth.guard";
 import {UnauthorizedComponent} from "./unauthorized/unauthorized.component";
+import {RegisterComponent} from "./register/register.component";
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: 'register', component: RegisterComponent},
     { path: 'login', component: LoginComponent },
     { path: 'admin/dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/news', component: AdminAllNewsComponent,canActivate: [AdminAuthGuard] },

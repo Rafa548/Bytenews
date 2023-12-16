@@ -27,11 +27,8 @@ urlpatterns = [
     path('authors/<int:id>', views.author_detail),   # GET, PUT, DELETE /author/<id>  get, update, delete an author
     path('publishers/', views.publisher_list), # GET, POST /publisher/  get all publishers, create a new publisher
     path('publishers/<int:id>', views.publisher_detail),   # GET, PUT, DELETE /publisher/<id>  get, update, delete a publisher
-
-
-
-
     path('published_news/user/<int:author_id>/', views.news_by_author, name='news_by_author'),
     path('saved_news/user/<int:user_id>/', views.news_by_user, name='news_by_user'),
     path('login', views.login, name='login'),
+    path('register',views.register),
 ]
