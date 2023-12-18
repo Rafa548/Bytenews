@@ -30,6 +30,24 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getNewsComments(id: number): Promise<any> {
+    const url = this.baseURL + '/news/' + id + '/comments';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async postComment(id: number, user_id: any, comment: string): Promise<any> {
+    const url = this.baseURL + '/news/' + id + '/comment/';
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({user: user_id, text: comment}) });
+    return await data.statusText ?? undefined;
+  }
+
+  async deleteNewsComment(id: number): Promise<any> {
+    const url = this.baseURL + '/news/comments/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
+  }
+
   async deleteNew(id: number): Promise<any> {
     const url = this.baseURL + '/news/' + id;
     const data = await fetch(url, {method: 'DELETE'});
@@ -88,6 +106,24 @@ export class ApiDataService {
   async registerUser(json:{email:string,password:string,username:string,firstName:string,lastName:string}): Promise<any> {
     const url = this.baseURL + '/register';
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
+
+  async saveNews(news_id:number, user_id:any): Promise<any> {
+    const url = this.baseURL + '/user/' + user_id + '/save_news/' + news_id + '/';
+    const data = await fetch(url, {method: 'POST'});
+    return await data.statusText ?? undefined;
+  }
+
+  async getSavedNews(user_id:any): Promise<news[]> {
+    const url = this.baseURL + '/user/' + user_id + '/saved_news';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async unsaveNews(news_id:number, user_id:any): Promise<any> {
+    const url = this.baseURL + '/user/' + user_id + '/unsave_news/' + news_id + '/';
+    const data = await fetch(url, {method: 'POST'});
     return await data.statusText ?? undefined;
   }
 }

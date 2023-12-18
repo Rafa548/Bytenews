@@ -13,11 +13,10 @@
         <div class="postcard__bar"></div>
         <div class="postcard__preview-txt">{{ news.content }}</div>
         <ul class="postcard__tagbox">
-            <li class="tag__item" (click)="onAuthorClick()"><i class="fas fa-tag mr-2"></i>{{ news_author }}</li>
-            <li class="tag__item"><i class="fas fa-clock mr-2"></i>55 mins.</li>
-            <li class="tag__item play blue">
-                <a href="#"><i class="fas fa-play mr-2"></i>Play Episode</a>
-            </li>
+            <li class="tag__item" (click)="onAuthorClick()"><i class="fa-solid fa-feather"></i> {{ news_author }}</li>
+            <li class="tag__item" (click)="ClickSave()" *ngIf="is_saved == false"><i class="fa fa-bookmark" aria-hidden="false"></i> Save</li>
+            <li class="tag__item" (click)="ClickUnSave()" *ngIf="is_saved == true"><i class="fa fa-bookmark" aria-hidden="true"></i> Unsave</li>
+            
         </ul>
     </div>
 </article>

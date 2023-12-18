@@ -13,11 +13,11 @@ import { AuthService } from '../auth.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  isLoggedIn: boolean = localStorage.getItem('token') !== null;
   showDropdown: boolean = false;
   showNotifications = false;
   AuthService = inject(AuthService);
   currentUser = this.AuthService.getUser();
+  isLoggedIn: boolean = this.currentUser;
   
 
   toggleNotifications(event: Event) {
@@ -37,18 +37,17 @@ export class NavbarComponent {
   logout() {
     // Implement your logout logic here
     // For example, clear the token and navigate to the home page
-    localStorage.removeItem('token');
     this.isLoggedIn = false;
     this.router.navigate(['/']);
   }
 
   redirectTo(path: string): void {
     switch (path) {
-      case 'classes':
-        this.router.navigate(['/admin/class_students']); // Change the route path as needed
+      case 'saved':
+        this.router.navigate(['/user/' + this.currentUser.id + '/saved']); // Change the route path as needed
         break;
-      case 'students':
-        this.router.navigate(['/admin/students']); // Change the route path as needed
+      case 'all':
+        this.router.navigate(['/user/dashboard']); // Change the route path as needed
         break;
       case 'teachers':
         this.router.navigate(['/admin/teachers']); // Change the route path as needed

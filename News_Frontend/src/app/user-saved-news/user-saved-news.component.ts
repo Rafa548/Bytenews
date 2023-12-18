@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'app-user-dashboard',
+  selector: 'app-user-saved-news',
   standalone: true,
   imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent],
-  templateUrl: './user-dashboard.component.html',
-  styleUrl: './user-dashboard.component.css'
+  templateUrl: './user-saved-news.component.html',
+  styleUrl: './user-saved-news.component.css'
 })
-export class UserDashboardComponent {
+export class UserSavedNewsComponent {
   ApiDataService = inject(ApiDataService);
   newsArticles: any[] = [];
   selectedNews: any = null;
@@ -30,8 +30,8 @@ export class UserDashboardComponent {
       this.newsArticles = news1;
 
       for (let i = 0; i < this.newsArticles.length; i++) {
-        const published = this.newsArticles[i].published_by;
-        this.ApiDataService.getAuthor(published).then((author : author) => {
+        const putblished = this.newsArticles[i].published_by;
+        this.ApiDataService.getAuthor(putblished).then((author : author) => {
           //console.log(author);
           this.ApiDataService.getUser(author.user).then((user : user) => {
             //console.log(user);
@@ -94,5 +94,4 @@ export class UserDashboardComponent {
     return false;
   }
 
-  
 }

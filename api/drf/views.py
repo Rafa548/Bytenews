@@ -273,7 +273,7 @@ def news_by_user_publisher_interest(request, user_id, publisher_id, interest_id)
         return Response(serializer.data)
 
 @api_view(['POST'])
-def save_news(request, news_id):
+def save_news(request, news_id, user_id):
     """
     Save a news by a user.
     """
@@ -283,13 +283,14 @@ def save_news(request, news_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST':
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
+        #user = request.user
+        #user_profile = UserProfile.objects.get(user=user)
+        user_profile = UserProfile.objects.get(user_id=user_id)
         user_profile.saved_news.add(news)
         return Response(status=status.HTTP_200_OK)
 
 @api_view(['POST'])
-def unsave_news(request, news_id):
+def unsave_news(request, news_id, user_id):
     """
     Unsave a news by a user.
     """
@@ -299,8 +300,9 @@ def unsave_news(request, news_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST':
-        user = request.user
-        user_profile = UserProfile.objects.get(user=user)
+        #user = request.user
+        #user_profile = UserProfile.objects.get(user=user)
+        user_profile = UserProfile.objects.get(user_id=user_id)
         user_profile.saved_news.remove(news)
         return Response(status=status.HTTP_200_OK)
 
@@ -329,11 +331,27 @@ def comment_news(request, news_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST':
-        user = request.user
+        user = request.data['user']
+        user = CustomUser.objects.get(pk=user)
         text = request.data['text']
         comment = Comment(user=user, news=news, text=text)
         comment.save()
         return Response(status=status.HTTP_200_OK)
+    
+@api_view(['DELETE'])
+def delete_comment(request, comment_id):
+    """
+    Delete a comment.
+    """
+    try:
+        comment = Comment.objects.get(pk=comment_id)
+    except Comment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_200_OK)
+    
 
 @api_view(['GET'])
 def comments_by_user(request, user_id):
@@ -348,6 +366,7 @@ def comments_by_user(request, user_id):
     if request.method == 'GET':
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
+    
 
 @api_view(['GET']) #apagar talvez
 def comments_by_user_news(request, user_id, news_id):

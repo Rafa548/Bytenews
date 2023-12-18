@@ -1,0 +1,27 @@
+<!-- comments.component.html -->
+
+<div class="comment-section">
+    <h2>Comments</h2>
+    <!-- Your comment form goes here -->
+    <form (submit)="submitComment()" [formGroup]="commentForm" class="comment-form">
+        <textarea formControlName="newComment" placeholder="Add a comment"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    <!-- Display existing comments -->
+    <div *ngFor="let comment of news_comments" class="comment">
+        <div class="d-flex flex-row user-info">
+            <img class="rounded-circle" src="https://icon2.cleanpng.com/20180523/wxj/kisspng-businessperson-computer-icons-avatar-clip-art-lattice-5b0508dc2ee812.2252011515270566041921.jpg" width="40">
+            <div class="d-flex flex-column justify-content-start ml-2">
+                <span class="d-block font-weight-bold name">{{ news_comments_author.get(comment.id) }}</span>
+                <span class="date text-black-50"><i class="fas fa-calendar-alt mr-2"></i>{{ comment.created_at | date:'medium' }}</span>
+            </div>
+            <div class="actions ml-auto"> <!-- ml-auto pushes it to the right -->
+                <i *ngIf="comment.user == userId" (click)="deleteNewsComment(comment)" class="fa fa-trash" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="mt-2">
+            <p class="comment-text">{{ comment.text }}</p>
+        </div>
+    </div>
+</div>
