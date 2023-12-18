@@ -36,19 +36,15 @@ export class UserDashboardComponent {
         });
       }
       //console.log(this.newsArticles);
-    });
-
-
-    
+      });
   }
 
   redirectAuthor(news : news) {
     this.selectedNews = news;
     const author_id = news.published_by;
-
     this.router.navigate(['/author', author_id]);
 
   }
 
-  
+
 }

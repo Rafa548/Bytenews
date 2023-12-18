@@ -9,6 +9,7 @@ import {AdminSingleUserComponent} from "./admin-single-user/admin-single-user.co
 import {AdminAuthGuard} from "./admin-auth.guard";
 import {UnauthorizedComponent} from "./unauthorized/unauthorized.component";
 import {RegisterComponent} from "./register/register.component";
+import {AuthorNewsComponent} from "./author-news/author-news.component";
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,8 +19,8 @@ export const routes: Routes = [
     { path: 'admin/news', component: AdminAllNewsComponent },
     { path: 'admin/new/:id', component: AdminSingleNewsComponent },
     { path: 'user/dashboard', component: UserDashboardComponent},
+    {path:  'author/news', component: AuthorNewsComponent},
     { path: 'author/:id', component: UserDashboardComponent},
-    
     { path: 'admin/dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/news', component: AdminAllNewsComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/new/:id', component: AdminSingleNewsComponent,canActivate: [AdminAuthGuard] },

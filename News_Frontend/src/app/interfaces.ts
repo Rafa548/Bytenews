@@ -33,3 +33,9 @@ export interface news {
     published_by: number;
     //date: string;
 }
+
+export interface user_profile{
+  user: user;
+  news: news[];
+  interests: string[];
+}

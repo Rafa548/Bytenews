@@ -19,7 +19,9 @@ def news_list(request):
     elif request.method == 'POST':
         serializer = NewsSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(published_by=request.user)
+            published_by_id = request.data.get('published_by', {})
+            author = Author.objects.get(id=published_by_id)
+            serializer.save(published_by=author)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -175,12 +177,12 @@ def publisher_detail(request, id):
         publisher.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 @api_view(['GET'])
-def news_by_author(request, author_id):
+def news_by_author(request, id):
     """
     Retrieve all news by an author.
     """
     try:
-        news = News.objects.filter(published_by__user_id=author_id)
+        news = News.objects.filter(published_by__user_id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -492,8 +494,16 @@ def register(request):
             is_author=is_author,
             is_admin=is_admin
         )
-        serializer = CustomUserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        user_profile = UserProfile.objects.create(user=user)
+
+
+        user_serializer = CustomUserSerializer(user)
+        profile_serializer = UserProfileSerializer(user_profile)
+
+        return Response(
+            {'user': user_serializer.data, 'user_profile': profile_serializer.data},
+            status=status.HTTP_201_CREATED
+        )
 
 
 

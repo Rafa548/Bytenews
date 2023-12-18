@@ -90,4 +90,12 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
     return await data.statusText ?? undefined;
   }
+
+    async createNews(json:{title:string|undefined,description:string|undefined,content:string|undefined,published_by:number|undefined,tags:any[]}): Promise<any> {
+      const url = this.baseURL + '/news/';
+      console.log("json",json);
+      const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+      return await data.statusText ?? undefined;
+    }
+
 }
