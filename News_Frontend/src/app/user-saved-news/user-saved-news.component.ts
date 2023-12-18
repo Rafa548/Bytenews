@@ -25,25 +25,21 @@ export class UserSavedNewsComponent {
   user_saved_news: any[] = [];
 
   constructor(private router: Router) {
-    this.ApiDataService.getNews().then((news1 : any) => {
-      //console.log(news);
-      this.newsArticles = news1;
+    this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+      console.log(news);
+      this.user_saved_news = news;
 
-      for (let i = 0; i < this.newsArticles.length; i++) {
-        const putblished = this.newsArticles[i].published_by;
+      for (let i = 0; i < this.user_saved_news.length; i++) {
+        const putblished = this.user_saved_news[i].published_by;
         this.ApiDataService.getAuthor(putblished).then((author : author) => {
           //console.log(author);
           this.ApiDataService.getUser(author.user).then((user : user) => {
             //console.log(user);
-            this.authors.set(this.newsArticles[i].id, user.username);
+            this.authors.set(this.user_saved_news[i].id, user.username);
           });
         });
       }
       //console.log(this.newsArticles);
-    });
-    this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
-      console.log(news);
-      this.user_saved_news = news;
     });
   }
 
@@ -61,6 +57,10 @@ export class UserSavedNewsComponent {
 
     this.ApiDataService.saveNews(news.id, user_id).then((data : any) => {
       console.log(data);
+      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+        console.log(news);
+        this.user_saved_news = news;
+      });
       if (data == "ERROR") {
         return;
       }
@@ -76,6 +76,10 @@ export class UserSavedNewsComponent {
 
     this.ApiDataService.unsaveNews(news.id, user_id).then((data : any) => {
       console.log(data);
+      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+        console.log(news);
+        this.user_saved_news = news;
+      });
       if (data == "ERROR") {
         return;
       }

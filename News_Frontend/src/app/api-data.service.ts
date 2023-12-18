@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {author, news, publisher, user} from "./interfaces";
+import {author, news, publisher, user, interest} from "./interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -126,4 +126,23 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'POST'});
     return await data.statusText ?? undefined;
   }
+
+  async getNewsByTag(tag_id:number): Promise<news[]> {
+    const url = this.baseURL + '/news/interest/' + tag_id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getInterest(id:number): Promise<interest> {
+    const url = this.baseURL + '/interests/' + id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getInterests(): Promise<interest[]> {
+    const url = this.baseURL + '/interests';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+  
 }

@@ -1,21 +1,21 @@
-import { Component, inject} from '@angular/core';
+import { Component, SimpleChanges, inject} from '@angular/core';
 import { NewsCardComponent } from '../news-card/news-card.component';
 import { NewsCardDarkComponent } from '../news-card-dark/news-card-dark.component';
 import { NewsCardLightComponent } from '../news-card-light/news-card-light.component';
 import {ApiDataService} from "../api-data.service";
-import {author, news, publisher, user} from "../interfaces";
+import {author, interest, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'app-user-dashboard',
+  selector: 'app-news-interest',
   standalone: true,
   imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent],
-  templateUrl: './user-dashboard.component.html',
-  styleUrl: './user-dashboard.component.css'
+  templateUrl: './news-interest.component.html',
+  styleUrl: './news-interest.component.css'
 })
-export class UserDashboardComponent {
+export class NewsInterestComponent {
   ApiDataService = inject(ApiDataService);
   newsArticles: any[] = [];
   selectedNews: any = null;
@@ -23,15 +23,38 @@ export class UserDashboardComponent {
   currentUser = localStorage.getItem('currentUser');
   userId = localStorage.getItem('currentUserId');
   user_saved_news: any[] = [];
+  interest: interest = { id: 0, name: ''};
+  interest_id: number = 0;
+  url = window.location.href;
 
-  constructor(private router: Router) {
-    this.ApiDataService.getNews().then((news1 : any) => {
-      //console.log(news);
-      this.newsArticles = news1;
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.load_content();
+    
+  }
 
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const url = window.location.href;
+      
+      this.load_content();
+    });
+  }
+
+  load_content() {
+    
+    const url = window.location.href;
+    const url_split = url.split('/');
+    const tag_id = url_split[url_split.length - 1];
+    console.log(tag_id);
+    //convert news id to int
+    const tag_id_int = parseInt(tag_id);
+    this.interest_id = tag_id_int;
+    this.ApiDataService.getNewsByTag(tag_id_int).then((news : any) => {
+      console.log(news);
+      this.newsArticles = news;
       for (let i = 0; i < this.newsArticles.length; i++) {
-        const published = this.newsArticles[i].published_by;
-        this.ApiDataService.getAuthor(published).then((author : author) => {
+        const putblished = this.newsArticles[i].published_by;
+        this.ApiDataService.getAuthor(putblished).then((author : author) => {
           //console.log(author);
           this.ApiDataService.getUser(author.user).then((user : user) => {
             //console.log(user);
@@ -45,7 +68,14 @@ export class UserDashboardComponent {
       console.log(news);
       this.user_saved_news = news;
     });
+
+    this.ApiDataService.getInterest(tag_id_int).then((interest : interest) => {
+      console.log(interest);
+      this.interest = interest;
+    });
+    
   }
+
 
   redirectAuthor(news : news) {
     this.selectedNews = news;
@@ -101,6 +131,4 @@ export class UserDashboardComponent {
     }
     return false;
   }
-
-  
 }

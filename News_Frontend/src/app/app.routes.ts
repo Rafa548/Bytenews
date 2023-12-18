@@ -11,6 +11,8 @@ import {UnauthorizedComponent} from "./unauthorized/unauthorized.component";
 import {RegisterComponent} from "./register/register.component";
 import { UserSavedNewsComponent } from './user-saved-news/user-saved-news.component';
 import { NewsPageComponent } from './news-page/news-page.component';
+import { AuthorNewsComponent } from './author-news/author-news.component';
+import { NewsInterestComponent } from './news-interest/news-interest.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -21,8 +23,9 @@ export const routes: Routes = [
     { path: 'admin/new/:id', component: AdminSingleNewsComponent },
     { path: 'user/dashboard', component: UserDashboardComponent},
     { path: 'user/:id/saved', component: UserSavedNewsComponent},
-    { path: 'author/:id', component: UserDashboardComponent},
+    { path: 'author/:id', component: AuthorNewsComponent},
     { path: 'news/:id', component: NewsPageComponent},
+    { path: 'news/interest/:id', component: NewsInterestComponent},
     
     { path: 'admin/dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/news', component: AdminAllNewsComponent,canActivate: [AdminAuthGuard] },

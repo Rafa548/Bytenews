@@ -68,6 +68,10 @@ export class NewsPageComponent {
 
     this.ApiDataService.saveNews(news.id, user_id).then((data : any) => {
       console.log(data);
+      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+        console.log(news);
+        this.user_saved_news = news;
+      });
       if (data == "ERROR") {
         return;
       }
@@ -83,6 +87,10 @@ export class NewsPageComponent {
 
     this.ApiDataService.unsaveNews(news.id, user_id).then((data : any) => {
       console.log(data);
+      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+        console.log(news);
+        this.user_saved_news = news;
+      });
       if (data == "ERROR") {
         return;
       }

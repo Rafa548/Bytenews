@@ -80,6 +80,7 @@ export class CommentsComponent {
   deleteNewsComment(comment: any) {
     this.ApiDataService.deleteNewsComment(comment.id).then((data : any) => {
       console.log(data);
+      this.loadNewsComments();
       if (data == "ERROR") {
         return;
       }
@@ -87,6 +88,6 @@ export class CommentsComponent {
         console.log("Comment deleted");
       }
     });
-    this.loadNewsComments();
+    
   }
 }

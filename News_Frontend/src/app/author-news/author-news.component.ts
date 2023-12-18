@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'app-user-dashboard',
+  selector: 'app-author-news',
   standalone: true,
   imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent],
-  templateUrl: './user-dashboard.component.html',
-  styleUrl: './user-dashboard.component.css'
+  templateUrl: './author-news.component.html',
+  styleUrl: './author-news.component.css'
 })
-export class UserDashboardComponent {
+export class AuthorNewsComponent {
   ApiDataService = inject(ApiDataService);
   newsArticles: any[] = [];
   selectedNews: any = null;
@@ -23,24 +23,40 @@ export class UserDashboardComponent {
   currentUser = localStorage.getItem('currentUser');
   userId = localStorage.getItem('currentUserId');
   user_saved_news: any[] = [];
+  author_name: string = "";
 
   constructor(private router: Router) {
-    this.ApiDataService.getNews().then((news1 : any) => {
-      //console.log(news);
-      this.newsArticles = news1;
+    const url = window.location.href;
+    const url_split = url.split('/');
+    const author_id = url_split[url_split.length - 1];
+    const author_id_int = parseInt(author_id);
+    console.log(author_id);
 
-      for (let i = 0; i < this.newsArticles.length; i++) {
-        const published = this.newsArticles[i].published_by;
-        this.ApiDataService.getAuthor(published).then((author : author) => {
-          //console.log(author);
-          this.ApiDataService.getUser(author.user).then((user : user) => {
-            //console.log(user);
-            this.authors.set(this.newsArticles[i].id, user.username);
+    this.ApiDataService.getAuthor(author_id_int).then((author : author) => {
+      console.log(author);
+      this.ApiDataService.getAuthorNews(author.id).then((news : any) => {
+        console.log(news);
+        this.newsArticles = news;
+        for (let i = 0; i < this.newsArticles.length; i++) {
+          const published = this.newsArticles[i].published_by;
+          this.ApiDataService.getAuthor(published).then((author : author) => {
+            console.log(author);
+            this.ApiDataService.getUser(author.user).then((user : user) => {
+              console.log(user);
+              this.authors.set(this.newsArticles[i].id, user.username);
+            });
           });
-        });
-      }
-      //console.log(this.newsArticles);
+        }
+      });
+      this.ApiDataService.getUser(author.user).then((user : user) => {
+        console.log(user);
+        this.author_name = user.username;
+        
+      });
     });
+
+
+    
     this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
       console.log(news);
       this.user_saved_news = news;
@@ -102,5 +118,4 @@ export class UserDashboardComponent {
     return false;
   }
 
-  
 }
