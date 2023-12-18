@@ -103,9 +103,11 @@ def author_list(request):
 
     elif request.method == 'POST':
         serializer = AuthorSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -123,11 +125,18 @@ def author_detail(request, id):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = AuthorSerializer(author, data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
+
+       try :
+            print(request.data)
+            author = Author.objects.get(id=request.data['id'])
+       except Author.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+       serializer = AuthorSerializer(author, data=request.data)
+       #print(serializer.is_valid())
+       if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         author.delete()
@@ -283,12 +292,12 @@ def news_by_interest(request, id):
         return Response(serializer.data)
 
 @api_view(['GET']) #news salvas pelo user
-def news_by_user(request, user_id):
+def news_by_user(request, id):
     """
     Retrieve all news by a user.
     """
     try:
-        news = News.objects.filter(saved_by__user_id=user_id)
+        news = News.objects.filter(saved_by__user_id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

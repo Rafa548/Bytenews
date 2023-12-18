@@ -132,4 +132,27 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
     return await data.statusText ?? undefined;
   }
+
+  async updateAuthor(author : author): Promise<author> {
+    //console.log(author)
+    const id = author.id;
+    const url = this.baseURL + '/authors/' + id;
+    const data = await fetch(url, {method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(author) });
+    return await data.json() ?? undefined;
+  }
+
+  async updateUser(user : user): Promise<user> {
+    //console.log(user)
+    const id = user.id;
+    const url = this.baseURL + '/users/' + id;
+    const data = await fetch(url, {method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) });
+    return await data.json() ?? undefined;
+  }
+
+  async createAuthor(author : author): Promise<author> {
+    const url = this.baseURL + '/authors/' ;
+    console.log(url)
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(author) });
+    return await data.json() ?? undefined;
+  }
 }

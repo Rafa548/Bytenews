@@ -12,9 +12,6 @@ export interface user {
 export interface publisher {
     id: number;
     name: string;
-    email: string;
-    password: string;
-    type: string;
 }
 
 export interface author {
