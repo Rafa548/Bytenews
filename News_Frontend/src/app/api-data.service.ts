@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {author, news, publisher, user} from "./interfaces";
+import {author, interest, news, publisher, user} from "./interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +43,18 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getNewsByInterest(id: number): Promise<news[]> {
+    const url = this.baseURL + '/news/' + 'interest/' +  id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getNewsByUser(id: number): Promise<news[]> {
+    const url = this.baseURL + '/users/' +  id + '/news/';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
   async getUsers(): Promise<user[]> {
     const url = this.baseURL + '/users';
     const data = await fetch(url, {method: 'GET' });
@@ -67,16 +79,40 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
-  async getPublishers(): Promise<publisher> {
+  async getPublishers(): Promise<publisher[]> {
     const url = this.baseURL + '/publishers';
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
+  }
+
+  async getInterests(): Promise<interest[]> {
+    const url = this.baseURL + '/interests';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getInterest(id:number): Promise<interest> {
+    const url = this.baseURL + '/interests/' + id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async deleteInterest(id: number): Promise<any> {
+    const url = this.baseURL + '/interests/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
   }
 
   async getPublisher(id:number): Promise<publisher> {
     const url = this.baseURL + '/publishers/' + id;
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
+  }
+
+  async deletePublisher(id: number): Promise<any> {
+    const url = this.baseURL + '/publishers/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
   }
 
   async getAuthorNews(id:number): Promise<news[]> {

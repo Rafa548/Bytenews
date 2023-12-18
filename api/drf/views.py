@@ -174,13 +174,59 @@ def publisher_detail(request, id):
     elif request.method == 'DELETE':
         publisher.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def interests_list(request):
+    """
+    List all interests, or create a new interest.
+    """
+    if request.method == 'GET':
+        interests = Interest.objects.all()
+        serializer = InterestSerializer(interests, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = InterestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def interest_detail(request, id):
+    """
+    Retrieve, update or delete a interest instance.
+    """
+    try:
+        interest = Interest.objects.get(id=id)
+    except Interest.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = InterestSerializer(interest)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = InterestSerializer(interest, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        interest.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(['GET'])
-def news_by_author(request, author_id):
+def news_by_author(request, id):
     """
     Retrieve all news by an author.
     """
     try:
-        news = News.objects.filter(published_by__user_id=author_id)
+        news = News.objects.filter(published_by__user_id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -203,12 +249,12 @@ def news_by_publisher(request, publisher_id):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def news_by_interest(request, interest_id):
+def news_by_interest(request, id):
     """
     Retrieve all news by an interest.
     """
     try:
-        news = News.objects.filter(interests__id=interest_id)
+        news = News.objects.filter(tags__id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

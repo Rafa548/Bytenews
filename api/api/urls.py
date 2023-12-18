@@ -21,14 +21,19 @@ from drf import views
 urlpatterns = [
     path('news/', views.news_list), # GET, POST /news/  get all news, create a new news
     path('news/<int:id>', views.news_detail),   # GET, PUT, DELETE /news/<id>  get, update, delete a news
+    path('news/interest/<int:id>', views.news_by_interest), # GET /news/interest/<id>  get all news by interest
     path('users/', views.user_list), # GET, POST /user/  get all users, create a new user')
     path('users/<int:id>', views.user_detail),   # GET, PUT, DELETE /user/<id>  get, update, delete a user
+    path('users/<int:id>/news/', views.news_by_user), # GET /user/<id>/news/  get all news saved by user
     path('authors/', views.author_list), # GET, POST /author/  get all authors, create a new author
     path('authors/<int:id>', views.author_detail),   # GET, PUT, DELETE /author/<id>  get, update, delete an author
+    path('authors/<int:id>/news/', views.news_by_author), # GET /author/<id>/news/  get all news by author
     path('publishers/', views.publisher_list), # GET, POST /publisher/  get all publishers, create a new publisher
     path('publishers/<int:id>', views.publisher_detail),   # GET, PUT, DELETE /publisher/<id>  get, update, delete a publisher
-    path('published_news/user/<int:author_id>/', views.news_by_author, name='news_by_author'),
-    path('saved_news/user/<int:user_id>/', views.news_by_user, name='news_by_user'),
-    path('login', views.login, name='login'),
+    path('interests/', views.interests_list), # GET, POST /interest/  get all interests, create a new interest
+    path('interests/<int:id>', views.interest_detail),   # GET, PUT, DELETE /interest/<id>  get, update, delete an interest
+
+
+    path('login', views.login),
     path('register',views.register),
 ]

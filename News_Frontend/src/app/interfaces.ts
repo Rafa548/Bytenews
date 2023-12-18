@@ -33,3 +33,8 @@ export interface news {
     published_by: number;
     //date: string;
 }
+
+export interface interest {
+    id: number;
+    name: string;
+}

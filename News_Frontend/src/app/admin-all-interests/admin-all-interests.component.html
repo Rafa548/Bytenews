@@ -1,0 +1,9 @@
+<app-admin-all-details-page
+  [title]="'Interests:'"
+  [items]="interests"
+  [is_interest]="true"
+  (childViewEvent)="navigateToInterestDetails($event)"
+  (childDeleteEvent)="deleteInterest($event)">
+</app-admin-all-details-page>
+
+

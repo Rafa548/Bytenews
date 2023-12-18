@@ -1,4 +1,5 @@
-<div *ngIf="user" class="container mt-5">
+<app-navbar></app-navbar>
+<div class="container mt-5">
   <h2>User Details</h2>
   <div class="card">
     <div class="card-body">
@@ -8,25 +9,64 @@
       <p class="card-text">Publisher: {{ publisher.name }}</p>
     </div>
   </div>
-  <div *ngIf="user.is_author" class="card">
-    <div class="card-body">
-      <h5 class="card-title">User's News</h5>
-      <div *ngFor="let news of userNews" class="card mb-3">
-        <div class="card-body">
-          <h6 class="card-subtitle mb-2 text-muted">{{ news.title }}</h6>
-          <p class="card-text">{{ news.description }}</p>
-          <!-- Add other news details as needed -->
-          <div class="d-flex justify-content-end">
-              <button class="btn btn-primary" (click)="viewNewsDetails(news.id)">
-                <i class="fas fa-info-circle"></i> Details
-              </button>
-              <button class="btn btn-danger " (click)="deleteNews(news.id)">
-                <i class="fas fa-trash-alt"></i> Delete
-              </button>
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" (click)="activeTab = 'saved-news'" [class.active]="activeTab === 'saved-news'">Saved News</a>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" (click)="activeTab = 'comments'" [class.active]="activeTab === 'comments'">Comments</a>
+    </li>
+    <li class="nav-item" role="presentation" *ngIf="user.is_author">
+      <a class="nav-link" (click)="activeTab = 'posted-news'" [class.active]="activeTab === 'posted-news'">Posted News</a>
+    </li>
+  </ul>
 
+  <div class="tab-content">
+    <div *ngIf="activeTab === 'saved-news'">
+      <div  class="card">
+        <div class="card-body">
+          <div *ngFor="let news of userSavedNews" class="card mb-3">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">{{ news.title }}</h6>
+              <p class="card-text">{{ news.description }}</p>
+              <!-- Add other news details as needed -->
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="viewNewsDetails(news.id)">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn btn-danger " (click)="deleteSavedNews(news.id)">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div *ngIf="activeTab === 'posted-news'" >
+      <div class="card">
+        <div class="card-body">
+          <div *ngFor="let news of userPublishedNews" class="card mb-3">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">{{ news.title }}</h6>
+              <p class="card-text">{{ news.description }}</p>
+              <!-- Add other news details as needed -->
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="viewNewsDetails(news.id)">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn btn-danger " (click)="deletePublishedNews(news.id)">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="activeTab === 'comments'">
+      <h4>This is the Comments Tab</h4>
+      <p>Some default content for Comments...</p>
     </div>
   </div>
 </div>

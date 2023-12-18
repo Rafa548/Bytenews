@@ -4,3 +4,17 @@
   right: 20px;
   z-index: 999; /* Adjust the z-index as needed */
 }
+
+.btn-white {
+  background-color: white;
+  color: black; /* Set text color */
+  border-color: black; /* Set border color if needed */
+
+}
+
+.btn-white:hover {
+  background-color: white; /* Set hover background color if needed */
+  color: black; /* Set hover text color if needed */
+  border-color: black; /* Set hover border color if needed */
+}
+

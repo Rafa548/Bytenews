@@ -23,8 +23,8 @@ export class AdminDashboardComponent {
       case 'users':
         this.router.navigate(['/admin/users']); // Change the route path as needed
         break;
-      case 'teachers':
-        this.router.navigate(['/admin/teachers']); // Change the route path as needed
+      case 'interests':
+        this.router.navigate(['/admin/interests']); // Change the route path as needed
         break;
       default:
         break;

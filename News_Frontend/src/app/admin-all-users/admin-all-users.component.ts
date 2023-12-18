@@ -26,6 +26,11 @@ export class AdminAllUsersComponent {
   constructor(private router: Router) {
     this.ApiDataService.getUsers().then((users: user[]) => {
       this.users = users;
+      for (let user of this.users) { // Remove all admin users from the list
+        if (user.is_admin) {
+          this.users.splice(this.users.indexOf(user), 1);
+        }
+      }
     });
   }
 
@@ -33,14 +38,15 @@ export class AdminAllUsersComponent {
     this.router.navigate(['admin/users', userId]); // Navigate to a route like '/user/1' based on the user ID
   }
 
-  scrollToBottom() {
-    window.scrollTo({ left: 0, top: document.body.scrollHeight, behavior: 'smooth' });
-  }
-
   deleteUser(userId: number) {
     this.ApiDataService.deleteUser(userId).then((response: any) => {
       this.ApiDataService.getUsers().then((users: user[]) => {
         this.users = users;
+        for (let user of this.users) { // Remove all admin users from the list
+          if (user.is_admin) {
+            this.users.splice(this.users.indexOf(user), 1);
+          }
+        }
       });
     });
   }
