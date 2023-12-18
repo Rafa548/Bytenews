@@ -176,6 +176,26 @@ def publisher_detail(request, id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'POST'])
+def authors_by_publisher(request, id):
+    """
+    Retrieve all authors by a publisher.
+    """
+    try:
+        authors = Author.objects.filter(publisher_id=id)
+    except Author.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AuthorSerializer(authors, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(publisher_id=id)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET', 'POST'])
 def interests_list(request):
     """
     List all interests, or create a new interest.

@@ -115,6 +115,12 @@ export class ApiDataService {
     return await data.statusText ?? undefined;
   }
 
+  async getPublisherAuthors(id:number): Promise<author[]> {
+    const url = this.baseURL + '/publishers/' + id + '/authors';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
   async getAuthorNews(id:number): Promise<news[]> {
     const url = this.baseURL + '/authors/' + id + '/news';
     const data = await fetch(url, {method: 'GET'});

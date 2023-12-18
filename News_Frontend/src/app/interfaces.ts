@@ -23,8 +23,6 @@ export interface author {
     publisher: number;
 }
 
-
-
 export interface news {
     id: number;
     title: string;

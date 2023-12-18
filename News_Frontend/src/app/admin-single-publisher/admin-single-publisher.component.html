@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <h2>Author of {{ publisher_name }}</h2>
+  <div class="card">
+    <div class="card-body">
+      <div *ngFor="let author of users" class="card mb-3">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">{{ author.username }}</h6>
+          <!-- Add other news details as needed -->
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" (click)="viewUserDetails(author.id)">
+              <i class="fas fa-info-circle"></i> Details
+            </button>
+            <button class="btn btn-danger " (click)="deleteUser(author.id)">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

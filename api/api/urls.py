@@ -32,7 +32,7 @@ urlpatterns = [
     path('publishers/<int:id>', views.publisher_detail),   # GET, PUT, DELETE /publisher/<id>  get, update, delete a publisher
     path('interests/', views.interests_list), # GET, POST /interest/  get all interests, create a new interest
     path('interests/<int:id>', views.interest_detail),   # GET, PUT, DELETE /interest/<id>  get, update, delete an interest
-
+    path('publishers/<int:id>/authors/', views.authors_by_publisher), # GET /publisher/<id>/authors/  get all authors by publisher
 
     path('login', views.login),
     path('register',views.register),
