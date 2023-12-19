@@ -17,6 +17,7 @@
       <ul class="navbar-nav d-flex flex-row me-1">
         <li class="nav-item position-relative me-3 me-lg-0">
           <a href="javascript:void(0);" class="nav-link navbar-brand" id="notificationsBell" (click)="toggleNotifications($event)">
+            <a *ngIf="currentUser.is_admin == true" class="nav-link" routerLink="/admin/dashboard" style=" color: aliceblue; border-radius: 5px; margin-right: 5px;" >Admin View</a>
             
             <button *ngIf="!isLoggedIn" class="button" (click)="login()">Login</button>
             <button *ngIf="isLoggedIn" class="button" (click)="logout()">Logout</button>
