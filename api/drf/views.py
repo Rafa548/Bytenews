@@ -105,9 +105,11 @@ def author_list(request):
 
     elif request.method == 'POST':
         serializer = AuthorSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -125,11 +127,18 @@ def author_detail(request, id):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = AuthorSerializer(author, data=request.data)
-        if serializer.is_valid():
-            serializer.save(user=request.user)
+
+       try :
+            print(request.data)
+            author = Author.objects.get(id=request.data['id'])
+       except Author.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+       serializer = AuthorSerializer(author, data=request.data)
+       #print(serializer.is_valid())
+       if serializer.is_valid():
+            serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+       return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
         author.delete()
@@ -176,13 +185,79 @@ def publisher_detail(request, id):
     elif request.method == 'DELETE':
         publisher.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'POST'])
+def authors_by_publisher(request, id):
+    """
+    Retrieve all authors by a publisher.
+    """
+    try:
+        authors = Author.objects.filter(publisher_id=id)
+    except Author.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AuthorSerializer(authors, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = AuthorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(publisher_id=id)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET', 'POST'])
+def interests_list(request):
+    """
+    List all interests, or create a new interest.
+    """
+    if request.method == 'GET':
+        interests = Interest.objects.all()
+        serializer = InterestSerializer(interests, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = InterestSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def interest_detail(request, id):
+    """
+    Retrieve, update or delete a interest instance.
+    """
+    try:
+        interest = Interest.objects.get(id=id)
+    except Interest.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = InterestSerializer(interest)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = InterestSerializer(interest, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        interest.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(['GET'])
-def news_by_author(request, author_id):
+def news_by_author(request, id):
     """
     Retrieve all news by an author.
     """
     try:
-        news = News.objects.filter(published_by__user_id=author_id)
+        news = News.objects.filter(published_by__user_id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -205,12 +280,12 @@ def news_by_publisher(request, publisher_id):
         return Response(serializer.data)
 
 @api_view(['GET'])
-def news_by_interest(request, interest_id):
+def news_by_interest(request, id):
     """
     Retrieve all news by an interest.
     """
     try:
-        news = News.objects.filter(tags__id=interest_id)
+        news = News.objects.filter(tags__id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -219,12 +294,12 @@ def news_by_interest(request, interest_id):
         return Response(serializer.data)
 
 @api_view(['GET']) #news salvas pelo user
-def news_by_user(request, user_id):
+def news_by_user(request, id):
     """
     Retrieve all news by a user.
     """
     try:
-        news = News.objects.filter(saved_by__user_id=user_id)
+        news = News.objects.filter(saved_by__user_id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

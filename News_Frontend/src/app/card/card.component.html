@@ -9,10 +9,10 @@
     <p *ngIf="description != ''" class="card-text">{{ description }}</p>
   </div>
   <div class="card-footer d-flex justify-content-between">
-    <button class="btn btn-success" (click)="onViewClick()">
+    <button class="btn btn-success" (click)="onViewClick()" *ngIf="showView">
       View
     </button>
-    <button class="btn btn-danger" (click)="onDeleteClick()">
+    <button class="btn btn-danger" (click)="onDeleteClick()" *ngIf="showDelete">
       Delete
     </button>
   </div>

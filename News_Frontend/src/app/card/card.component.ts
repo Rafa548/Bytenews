@@ -14,9 +14,9 @@ import {NgIf} from "@angular/common";
 export class CardComponent {
   @Input() title: string = '';
   @Input() description: string = '';
-  @Input() viewText: string = 'View';
-  @Input() deleteText: string = 'Delete';
   @Input() showIcon: boolean = false;
+  @Input() showDelete: boolean = true;
+  @Input() showView: boolean = true;
 
   @Output() viewClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteClicked: EventEmitter<any> = new EventEmitter<any>();

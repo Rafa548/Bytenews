@@ -50,7 +50,7 @@ export class LoginComponent {
       else{
         console.log("USER");
         this.AuthService.setUser(data);
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/user/dashboard']);
       //this.router.navigate(['/teacher', data.nmec]);
       }
     });

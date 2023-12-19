@@ -25,7 +25,11 @@ class Command(BaseCommand):
             Interest.objects.create(name=f'Interest{i}')
 
         # Create 3 authors
-        users = CustomUser.objects.all()[:3]  # Select the first 3 users
+        users = []
+        for user in CustomUser.objects.all():
+            if not user.is_admin and len(users) < 3:
+                users.append(user)
+
         publishers = [Publisher.objects.create(name=f'Publisher{i}') for i in range(1, 6)]  # Create 5 publishers
         for user, publisher in zip(users, publishers):
             #updade the user to be an author
@@ -43,7 +47,11 @@ class Command(BaseCommand):
         interests = Interest.objects.all()[:5]
         for i in range(1, 31):
             author = authors[i % 3]
-            news = News.objects.create(title=f'News {i}',description='quick one', content=f'Content of news {i}', published_by=author)
+            news = News.objects.create(title=f'News {i}',description='Lorem ipsum dolor sit amet. ',
+                                       content='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae finibus mauris, id elementum neque. Donec et rhoncus justo, vitae ullamcorper orci. Etiam fermentum quam lacus, condimentum varius neque aliquam eu. Suspendisse potenti. Maecenas vulputate eget enim sit amet ullamcorper. Proin fermentum sagittis quam, sit amet convallis neque rutrum et. Mauris a leo quis felis tempor bibendum.'
+                                               'Duis ultrices, purus nec vehicula ullamcorper, orci dui ornare metus, interdum malesuada mi ipsum non massa. Fusce blandit, nunc eget feugiat tincidunt, mauris nisl blandit leo, sed lobortis urna diam sit amet ligula. Ut sollicitudin risus sed nulla tristique congue. Mauris eget ante mollis, semper justo et, pharetra sapien. Nullam metus magna, accumsan et nibh et, commodo dictum lorem. Aliquam porta nunc tellus. Sed maximus pulvinar suscipit. Suspendisse elit metus, tempus eget facilisis quis, rhoncus ac velit. Aenean sit amet blandit sem.'
+                                               ,
+                                       published_by=author)
             news.tags.set(interests)
 
         self.stdout.write(self.style.SUCCESS('Data populated successfully.'))

@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f8f9fa;">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/admin/dashboard">Admin Panel</a>
+      
+        
+      
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        
+        <ul class="navbar-nav ms-auto">
+            
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/admin/users">Users</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/admin/news">News</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/admin/interests">Interests</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/admin/publishers">Publishers</a>
+          </li>
+          <a class="nav-link" routerLink="/user/dashboard" style="background-color: rgb(133, 132, 132); color: aliceblue; border-radius: 5px; margin-right: 5px;" >User View</a>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/logout" (click)="logout()" style="background-color: crimson; color: #f8f9fa; border-radius: 7px;">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

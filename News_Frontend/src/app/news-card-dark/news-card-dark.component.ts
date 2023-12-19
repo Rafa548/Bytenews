@@ -20,6 +20,8 @@ export class NewsCardDarkComponent {
   @Input() is_saved: boolean = false;
 
 
+
+
   @Input() showButton: boolean = false;
   @Output() author_click : EventEmitter<any> = new EventEmitter<any>();
   @Output() click_save : EventEmitter<any> = new EventEmitter<any>();
@@ -68,10 +70,16 @@ export class NewsCardDarkComponent {
 
 
 
+  
+  
+
+
+  
 
   ClickNews() {
     this.router.navigate(['/news/' + this.news.id]);
   }
 
 
+  
 }

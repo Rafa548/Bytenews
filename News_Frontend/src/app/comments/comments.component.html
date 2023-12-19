@@ -17,7 +17,7 @@
                 <span class="date text-black-50"><i class="fas fa-calendar-alt mr-2"></i>{{ comment.created_at | date:'medium' }}</span>
             </div>
             <div class="actions ml-auto"> <!-- ml-auto pushes it to the right -->
-                <i *ngIf="comment.user == userId" (click)="deleteNewsComment(comment)" class="fa fa-trash" aria-hidden="true"></i>
+                <i *ngIf="comment.user == userId || currentUserIsAdmin" (click)="deleteNewsComment(comment)" class="fa fa-trash" aria-hidden="true"></i>
             </div>
         </div>
         <div class="mt-2">

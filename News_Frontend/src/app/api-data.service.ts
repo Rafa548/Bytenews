@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {author, news, publisher, user, interest} from "./interfaces";
+import {author, interest, news, publisher, user} from "./interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +61,18 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getNewsByInterest(id: number): Promise<news[]> {
+    const url = this.baseURL + '/news/' + 'interest/' +  id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getNewsByUser(id: number): Promise<news[]> {
+    const url = this.baseURL + '/users/' +  id + '/news/';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
   async getUsers(): Promise<user[]> {
     const url = this.baseURL + '/users';
     const data = await fetch(url, {method: 'GET' });
@@ -85,14 +97,40 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
-  async getPublishers(): Promise<publisher> {
+  async getPublishers(): Promise<publisher[]> {
     const url = this.baseURL + '/publishers';
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
 
+  async getInterests(): Promise<interest[]> {
+    const url = this.baseURL + '/interests';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  
+
+  async deleteInterest(id: number): Promise<any> {
+    const url = this.baseURL + '/interests/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
+  }
+
   async getPublisher(id:number): Promise<publisher> {
     const url = this.baseURL + '/publishers/' + id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async deletePublisher(id: number): Promise<any> {
+    const url = this.baseURL + '/publishers/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
+  }
+
+  async getPublisherAuthors(id:number): Promise<author[]> {
+    const url = this.baseURL + '/publishers/' + id + '/authors';
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
@@ -120,6 +158,7 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
+  
 
   async unsaveNews(news_id:number, user_id:any): Promise<any> {
     const url = this.baseURL + '/user/' + user_id + '/unsave_news/' + news_id + '/';
@@ -139,11 +178,7 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
-  async getInterests(): Promise<interest[]> {
-    const url = this.baseURL + '/interests';
-    const data = await fetch(url, {method: 'GET'});
-    return await data.json() ?? undefined;
-  }
+  
 
   async createNews(json:{title:string|undefined,description:string|undefined,content:string|undefined,published_by:number|undefined,tags:any[]}): Promise<any> {
     const url = this.baseURL + '/news/';
@@ -160,4 +195,30 @@ export class ApiDataService {
   }
 
 
+  
+
+  
+  
+  async updateAuthor(author : author): Promise<author> {
+    //console.log(author)
+    const id = author.id;
+    const url = this.baseURL + '/authors/' + id;
+    const data = await fetch(url, {method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(author) });
+    return await data.json() ?? undefined;
+  }
+
+  async updateUser(user : user): Promise<user> {
+    //console.log(user)
+    const id = user.id;
+    const url = this.baseURL + '/users/' + id;
+    const data = await fetch(url, {method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(user) });
+    return await data.json() ?? undefined;
+  }
+
+  async createAuthor(author : author): Promise<author> {
+    const url = this.baseURL + '/authors/' ;
+    console.log(url)
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(author) });
+    return await data.json() ?? undefined;
+  }
 }

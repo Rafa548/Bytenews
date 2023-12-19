@@ -49,7 +49,7 @@ export class UserDashboardComponent {
       }
       //console.log(this.newsArticles);
     });
-    this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+    this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
       console.log(news);
       this.user_saved_news = news;
     });
@@ -65,11 +65,12 @@ export class UserDashboardComponent {
 
   saveNews(news : news) {
     this.selectedNews = news;
-    const user_id = this.userId
+    const user_id =Number(this.userId)
+    
 
     this.ApiDataService.saveNews(news.id, user_id).then((data : any) => {
       console.log(data);
-      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+      this.ApiDataService.getNewsByUser(user_id).then((news : any) => {
         console.log(news);
         this.user_saved_news = news;
       });
@@ -88,7 +89,7 @@ export class UserDashboardComponent {
 
     this.ApiDataService.unsaveNews(news.id, user_id).then((data : any) => {
       console.log(data);
-      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+      this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
         console.log(news);
         this.user_saved_news = news;
       });
@@ -111,4 +112,5 @@ export class UserDashboardComponent {
   }
 
 
+  
 }

@@ -52,12 +52,13 @@ export class AuthorNewsComponent {
         console.log(user);
         this.author_name = user.username;
 
+        
       });
     });
 
 
-
-    this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+    
+    this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
       console.log(news);
       this.user_saved_news = news;
     });
@@ -77,7 +78,7 @@ export class AuthorNewsComponent {
 
     this.ApiDataService.saveNews(news.id, user_id).then((data : any) => {
       console.log(data);
-      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+      this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
         console.log(news);
         this.user_saved_news = news;
       });
@@ -96,7 +97,7 @@ export class AuthorNewsComponent {
 
     this.ApiDataService.unsaveNews(news.id, user_id).then((data : any) => {
       console.log(data);
-      this.ApiDataService.getSavedNews(this.userId).then((news : any) => {
+      this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
         console.log(news);
         this.user_saved_news = news;
       });
