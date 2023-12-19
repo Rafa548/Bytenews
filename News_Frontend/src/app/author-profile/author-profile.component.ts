@@ -34,25 +34,29 @@ export class AuthorProfileComponent {
   newsContent: string | undefined;
   tags : any[] = [];
   isAuthor: boolean = false;
+  author: any = {};
 
   constructor(private router: Router) {
     this.author_data = this.AuthService.getUser();
     console.log(this.author_data);
     this.isAuthor=this.author_data.is_author;
     console.log(this.isAuthor)
-    this.ApiDataService.getAuthorNews(this.author_data.id).then((news1 : any) => {
-      this.newsArticles = news1;
-      console.log(this.newsArticles)
-      for (let i = 0; i < this.newsArticles.length; i++) {
-        const putblished = this.newsArticles[i].published_by;
-        this.ApiDataService.getAuthor(putblished).then((author : author) => {
-          //console.log(author);
-          this.ApiDataService.getUser(author.user).then((user : user) => {
-            //console.log(user);
-            this.authors.set(this.newsArticles[i].id, user.username);
+    this.ApiDataService.getAuthor(this.author_data.id).then((author : author) => {
+      this.author = author;
+      this.ApiDataService.getAuthorNews(author.id).then((news1 : any) => {
+        this.newsArticles = news1;
+        console.log(this.newsArticles)
+        for (let i = 0; i < this.newsArticles.length; i++) {
+          const putblished = this.newsArticles[i].published_by;
+          this.ApiDataService.getAuthor(putblished).then((author : author) => {
+            //console.log(author);
+            this.ApiDataService.getUser(author.user).then((user : user) => {
+              //console.log(user);
+              this.authors.set(this.newsArticles[i].id, user.username);
+            });
           });
-        });
-      }
+        }
+      });
     });
   }
 
@@ -88,7 +92,8 @@ export class AuthorProfileComponent {
   saveChanges () {
     console.log(this.author_data.id);
     console.log(this.author_data.id);
-    this.ApiDataService.getAuthor(this.author_data.id).then((author : author) => {
+    console.log(this.author);
+    this.ApiDataService.getAuthor(this.author.id).then((author : author) => {
       console.log(author);
       const news = {
         "title": this.newsTitle,

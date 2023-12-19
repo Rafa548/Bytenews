@@ -117,7 +117,7 @@ export class AdminSingleUserComponent {
         });
         this.user.is_author = true;
         this.ApiDataService.updateUser(this.user).then((response : any) => {
-          //console.log(response);
+          console.log(response);
         });
 
       }
