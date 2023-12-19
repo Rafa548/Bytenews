@@ -1,4 +1,5 @@
-<app-navbar></app-navbar>
+<app-navbar-admin></app-navbar-admin>
+
 <div class="container mt-5">
   <h2>{{title}}</h2>
   <!-- Display news articles as cards in rows -->
@@ -10,15 +11,6 @@
         (viewClicked)="handleViewClickEvent(article.id)"
         (deleteClicked)="handleDeleteClickEvent(article.id)">
       </app-card>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card">
-        <div class="card-body d-flex justify-content-center align-items-center">
-          <button class="btn btn-success btn-lg">
-            <i class="fa-solid fa-plus"></i>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -32,11 +24,31 @@
       </app-card>
     </div>
 
-    <div class="col-md-4 mb-4">
+    <div class="col-md-4 mb-4" >
       <div class="card">
         <div class="card-body d-flex justify-content-center align-items-center">
-          <button class="btn btn-success btn-lg">
-            <i class="fa-solid fa-plus"></i>
+          <button class="btn btn-success btn-lg" (click)="openAddModalUser()">
+            <i class="fa-solid fa-plus" ></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4" *ngIf="is_interest">
+    <div class="col-md-4 mb-4" *ngFor="let interest of items">
+      <app-card
+        [title]="interest.name"
+        (viewClicked)="handleViewClickEvent(interest.id)"
+        (deleteClicked)="handleDeleteClickEvent(interest.id)">
+      </app-card>
+    </div>
+
+    <div class="col-md-4 mb-4" >
+      <div class="card">
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <button class="btn btn-success btn-lg" (click)="openAddModalInterest()">
+            <i class="fa-solid fa-plus" ></i>
           </button>
         </div>
       </div>
@@ -45,9 +57,107 @@
 
   <div class="container mt-5">
     <div class="scroll-to-bottom">
-      <button class="btn btn-primary" (click)="ScrollToBottomClick()">
+      <button class="btn btn-primary" (click)="ScrollToBottom()">
         <i class="fas fa-chevron-down"></i>
       </button>
     </div>
   </div>
+
 </div>
+
+
+
+<!-- New User Modal -->
+<div class="modal" id="addModalUser" *ngIf="is_user">
+  <!-- Modal content -->
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h5 class="modal-title">Add New User</h5>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <!-- User type toggle -->
+        <div class="mb-3">
+          <div class="btn-group" role="group" aria-label="User Type">
+            <button type="button" class="btn"
+                    [class.btn-success]="userType === 'User'"
+                    [class.btn-white]="userType !== 'User'"
+                    (click)="userType = 'User'">User</button>
+            <button type="button" class="btn"
+                    [class.btn-success]="userType === 'Author'"
+                    [class.btn-white]="userType !== 'Author'"
+                    (click)="userType = 'Author'">Author</button>
+          </div>
+        </div>
+
+        <!-- Form for adding a new user -->
+        <form (ngSubmit)="addUser()">
+          <!-- Your form fields go here -->
+          <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" [(ngModel)]="username" required>
+          </div>
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name:</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" [(ngModel)]="firstName" required>
+          </div >
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" [(ngModel)]="lastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" [(ngModel)]="email" required>
+
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" [(ngModel)]="password" required>
+          </div>
+
+          <div class="mb-3" *ngIf="userType === 'Author'">
+            <div class="mb-3">
+              <label for="publisher" class="form-label">Publisher:</label>
+              <select id="publisher" name="publisher" class="form-select" [(ngModel)]="selectedPublisher" required>
+                <option value="" disabled>Publisher</option>
+                <!-- Populate options dynamically from your data -->
+                <option *ngFor="let publisher of publishers" [value]="publisher">{{ publisher }}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit and close buttons -->
+          <button type="submit" class="btn btn-success">Add</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModalUser()">Close</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="addModalInterest" *ngIf="is_interest">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Interest</h5>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+          <form (ngSubmit)="addInterest()">
+            <div class="mb-3">
+              <label for="i_name" class="form-label">Name:</label>
+              <input type="text" id="i_name" name="i_name" class="form-control" [(ngModel)]="i_name" required>
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModalInterest()">Close</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

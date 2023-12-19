@@ -4,14 +4,19 @@ import {ApiDataService} from "../api-data.service";
 import {author, news, publisher} from "../interfaces";
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {NavbarComponent} from "../navbar/navbar.component";
+import { NavbarAdminComponent } from '../navbar-admin/navbar-admin.component';
+
 
 @Component({
   selector: 'app-admin-single-news',
   standalone: true,
-  imports: [
-    FormsModule,
-    NgIf
-  ],
+    imports: [
+        FormsModule,
+        NgIf,
+        NavbarComponent,
+        NavbarAdminComponent
+    ],
   templateUrl: './admin-single-news.component.html',
   styleUrl: './admin-single-news.component.css'
 })

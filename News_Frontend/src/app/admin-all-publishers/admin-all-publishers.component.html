@@ -1,0 +1,9 @@
+<app-admin-all-details-page
+  [title]="'Publishers:'"
+  [items]="publishers"
+  [is_interest]="true"
+  (childViewEvent)="navigateToDetails($event)"
+  (childDeleteEvent)="delete($event)">
+</app-admin-all-details-page>
+
+

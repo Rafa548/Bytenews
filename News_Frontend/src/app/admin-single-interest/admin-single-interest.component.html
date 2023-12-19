@@ -1,0 +1,24 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="container mt-5">
+  <h2>News related to {{ interest }}</h2>
+  <div class="card">
+    <div class="card-body">
+      <div *ngFor="let news of interestNews" class="card mb-3">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">{{ news.title }}</h6>
+          <p class="card-text">{{ news.description }}</p>
+          <!-- Add other news details as needed -->
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-primary" (click)="viewNewsDetails(news.id)">
+              <i class="fas fa-info-circle"></i> Details
+            </button>
+            <button class="btn btn-danger " (click)="deleteNews(news.id)">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,14 +13,17 @@ import { UserSavedNewsComponent } from './user-saved-news/user-saved-news.compon
 import { NewsPageComponent } from './news-page/news-page.component';
 import { AuthorNewsComponent } from './author-news/author-news.component';
 import { NewsInterestComponent } from './news-interest/news-interest.component';
+import {AdminAllInterestsComponent} from "./admin-all-interests/admin-all-interests.component";
+import {AdminSingleInterestComponent} from "./admin-single-interest/admin-single-interest.component";
+import {AdminAllPublishersComponent} from "./admin-all-publishers/admin-all-publishers.component";
+import {AdminSinglePublisherComponent} from "./admin-single-publisher/admin-single-publisher.component";
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'register', component: RegisterComponent},
     { path: 'login', component: LoginComponent },
-    { path: 'admin/dashboard', component: AdminDashboardComponent },
-    { path: 'admin/news', component: AdminAllNewsComponent },
-    { path: 'admin/new/:id', component: AdminSingleNewsComponent },
+   
+ 
     { path: 'user/dashboard', component: UserDashboardComponent},
     { path: 'user/:id/saved', component: UserSavedNewsComponent},
     { path: 'author/:id', component: AuthorNewsComponent},
@@ -32,6 +35,10 @@ export const routes: Routes = [
     { path: 'admin/new/:id', component: AdminSingleNewsComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/users', component: AdminAllUsersComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/users/:id', component: AdminSingleUserComponent,canActivate: [AdminAuthGuard]},
+    { path: 'admin/interests', component: AdminAllInterestsComponent,canActivate: [AdminAuthGuard] },
+    { path: 'admin/interests/:id', component: AdminSingleInterestComponent,canActivate: [AdminAuthGuard]},
+    { path: 'admin/publishers', component: AdminAllPublishersComponent, canActivate: [AdminAuthGuard]},
+    { path: 'admin/publishers/:id', component: AdminSinglePublisherComponent, canActivate: [AdminAuthGuard]},
     { path: 'unauthorized', component: UnauthorizedComponent},
 
 ];

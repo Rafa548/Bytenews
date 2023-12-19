@@ -26,6 +26,7 @@ export class NavbarComponent {
   }
   constructor(private router: Router) {
     console.log(this.currentUser);
+    console.log(this.currentUser);
   }
 
   login() {

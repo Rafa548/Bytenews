@@ -44,13 +44,13 @@ export class LoginComponent {
       else if (data.is_author == true){
         console.log("AUTHOR");
         this.AuthService.setUser(data);
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/user/dashboard']);
         //this.router.navigate(['/student', data.nmec]);
       }
       else{
         console.log("USER");
         this.AuthService.setUser(data);
-        this.router.navigate(['/admin/dashboard']);
+        this.router.navigate(['/user/dashboard']);
       //this.router.navigate(['/teacher', data.nmec]);
       }
     });
