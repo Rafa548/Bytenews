@@ -9,6 +9,7 @@ export class AuthService {
 
   setUser(user: any): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('currentUserId', user.id);
   }
 
   getUser(): any {

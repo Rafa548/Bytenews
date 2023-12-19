@@ -1,28 +1,77 @@
 import { Component, Input, Output, inject, EventEmitter} from '@angular/core';
 import { news } from '../interfaces';
 import {ApiDataService} from "../api-data.service";
-
+import {NgIf, NgFor} from "@angular/common";
+import { Router } from '@angular/router';
+import { interest } from '../interfaces';
 
 @Component({
   selector: 'app-news-card-dark',
   standalone: true,
-  imports: [],
+  imports: [NgIf, NgFor],
   templateUrl: './news-card-dark.component.html',
   //styleUrl: './news-card-dark.component.css'
   styleUrls: ['./news-card-dark.component.scss', './news-card-dark.component.css'],
 })
 export class NewsCardDarkComponent {
   ApiDataService = inject(ApiDataService);
-  @Input() news: news = { id: 0, title: '', description : '', content : '', published_by : 0};
+  @Input() news: news = { id: 0, title: '', description : '', content : '', published_by : 0, tags : []};
   @Input() news_author: string | undefined;
+  @Input() is_saved: boolean = false;
 
+
+  @Input() showButton: boolean = false;
   @Output() author_click : EventEmitter<any> = new EventEmitter<any>();
+  @Output() click_save : EventEmitter<any> = new EventEmitter<any>();
+  @Output() click_unsave : EventEmitter<any> = new EventEmitter<any>();
+  @Output() click_tag : EventEmitter<any> = new EventEmitter<any>();
+  @Output() deleteClick = new EventEmitter<void>();
+  @Output() editClick = new EventEmitter<void>();
+
+  tags_names: Map<number, string> = new Map<number, string>();
 
   onAuthorClick() {
     this.author_click.emit();
   }
 
-  constructor() {
-    
+  ClickSave() {
+    this.click_save.emit();
   }
+
+  ClickUnSave() {
+    this.click_unsave.emit();
+  }
+
+  ClickTag(tag: number) {
+    this.router.navigate(['/news/interest/' + tag]);
+    this.click_tag.emit();
+  }
+
+  onDeleteClick(): void {
+    this.deleteClick.emit();
+  }
+
+  onEditClick(): void {
+    this.editClick.emit();
+  }
+
+  constructor(private router: Router) {
+
+    this.ApiDataService.getInterests().then((interests : any) => {
+      for (let i = 0; i < interests.length; i++) {
+        this.tags_names.set(interests[i].id, interests[i].name);
+      }
+    });
+
+
+  }
+
+
+
+
+  ClickNews() {
+    this.router.navigate(['/news/' + this.news.id]);
+  }
+
+
 }

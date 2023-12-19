@@ -31,11 +31,11 @@ export interface news {
     description: string;
     content: string;
     published_by: number;
+    tags: number[];
     //date: string;
 }
 
-export interface user_profile{
-  user: user;
-  news: news[];
-  interests: string[];
+export interface interest {
+    id: number;
+    name: string;
 }

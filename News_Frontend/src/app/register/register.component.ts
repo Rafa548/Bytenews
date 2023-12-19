@@ -35,11 +35,13 @@ export class RegisterComponent {
       const json ={"email":this.email,"password":this.password,"username":this.username,"firstName":this.firstName,"lastName":this.lastName};
       this.ApiDataService.registerUser(json).then(r => {
         console.log(r);
-        if (r.status == 200) {
-          alert("User created successfully");
-          this.router.navigate(['/login']);
+        if (r == "Created") {
+          this.router.navigate(['login']);
         }
       });
     }
   }
+
+
+
 }

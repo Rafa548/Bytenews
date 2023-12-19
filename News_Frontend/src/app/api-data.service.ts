@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {author, news, publisher, user} from "./interfaces";
+import {author, news, publisher, user, interest} from "./interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,24 @@ export class ApiDataService {
     const url = this.baseURL + '/news/' + id;
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
+  }
+
+  async getNewsComments(id: number): Promise<any> {
+    const url = this.baseURL + '/news/' + id + '/comments';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async postComment(id: number, user_id: any, comment: string): Promise<any> {
+    const url = this.baseURL + '/news/' + id + '/comment/';
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({user: user_id, text: comment}) });
+    return await data.statusText ?? undefined;
+  }
+
+  async deleteNewsComment(id: number): Promise<any> {
+    const url = this.baseURL + '/news/comments/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
   }
 
   async deleteNew(id: number): Promise<any> {
@@ -63,7 +81,7 @@ export class ApiDataService {
 
   async getAuthor(id: number): Promise<author> {
     const url = this.baseURL + '/authors/' + id;
-    const data = await fetch(url, {method: 'GET'});
+        const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
 
@@ -91,11 +109,55 @@ export class ApiDataService {
     return await data.statusText ?? undefined;
   }
 
-    async createNews(json:{title:string|undefined,description:string|undefined,content:string|undefined,published_by:number|undefined,tags:any[]}): Promise<any> {
-      const url = this.baseURL + '/news/';
-      console.log("json",json);
-      const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
-      return await data.statusText ?? undefined;
-    }
+  async saveNews(news_id:number, user_id:any): Promise<any> {
+    const url = this.baseURL + '/user/' + user_id + '/save_news/' + news_id + '/';
+    const data = await fetch(url, {method: 'POST'});
+    return await data.statusText ?? undefined;
+  }
+
+  async getSavedNews(user_id:any): Promise<news[]> {
+    const url = this.baseURL + '/user/' + user_id + '/saved_news';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async unsaveNews(news_id:number, user_id:any): Promise<any> {
+    const url = this.baseURL + '/user/' + user_id + '/unsave_news/' + news_id + '/';
+    const data = await fetch(url, {method: 'POST'});
+    return await data.statusText ?? undefined;
+  }
+
+  async getNewsByTag(tag_id:number): Promise<news[]> {
+    const url = this.baseURL + '/news/interest/' + tag_id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getInterest(id:number): Promise<interest> {
+    const url = this.baseURL + '/interests/' + id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getInterests(): Promise<interest[]> {
+    const url = this.baseURL + '/interests';
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async createNews(json:{title:string|undefined,description:string|undefined,content:string|undefined,published_by:number|undefined,tags:any[]}): Promise<any> {
+    const url = this.baseURL + '/news/';
+    console.log("json",json);
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
+
+  async updateNews(id:number,json:{title:string|undefined,description:string|undefined,content:string|undefined}): Promise<any> {
+    const url = this.baseURL + '/news/' + id;
+    console.log("json",json);
+    const data = await fetch(url, {method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
+
 
 }

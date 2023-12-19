@@ -1,0 +1,60 @@
+
+<!--<app-news-card *ngFor="let news of newsList" [news]="news"></app-news-card>-->
+<!--<app-news-card></app-news-card>-->
+<app-navbar [isAuthor]="this.isAuthor"></app-navbar>
+<button (click)="openmodal()">open modal</button>
+<div class="container py-4">
+  <h1 class="h1 text-center" id="pageHeaderTitle">Profile</h1>
+  <div class="row">
+    <div class="col-md-12" *ngFor="let news2 of newsArticles">
+      <app-news-card-dark [showButton]="true"   [news]="news2" [news_author]="authors.get(news2.id)" (author_click)="redirectAuthor(news2)" (deleteClick)="onDeleteClick(news2)"
+                          (editClick)="onEditClick(news2)"></app-news-card-dark>
+    </div>
+    <div class="col-md-12" *ngFor="let news of newsArticles">
+      <app-news-card-light></app-news-card-light>
+    </div>
+    <app-news-card-dark [showButton]="true"></app-news-card-dark>
+    <app-news-card-light></app-news-card-light>
+  </div>
+</div>
+
+<div id="createModal" class="modal">
+  <div class="modal-content">
+    <h2>Create New News</h2>
+    <div class="input-group">
+      <label for="title">Title:</label>
+      <input type="text" id="title" [(ngModel)]="newsTitle" placeholder="Enter title">
+    </div>
+    <div class="input-group">
+      <label for="description">Description:</label>
+      <input type="text" id="description" [(ngModel)]="newsDescription" placeholder="Enter description">
+    </div>
+    <div class="input-group">
+      <label for="content">Content:</label>
+      <textarea id="content" [(ngModel)]="newsContent" placeholder="Enter content"></textarea>
+    </div>
+    <button (click)="saveChanges()">Save Changes</button>
+    <button (click)="closeCreateModal()">Close</button>
+  </div>
+</div>
+
+<div id="editModal" class="modaledit">
+  <div class="modaledit-content">
+    <h2>Edit New</h2>
+    <div class="input-group">
+      <label for="title">Title:</label>
+      <input type="text" id="edittitle" [(ngModel)]="newsTitle" placeholder="Enter title">
+    </div>
+    <div class="input-group">
+      <label for="description">Description:</label>
+      <input type="text" id="editdescription" [(ngModel)]="newsDescription" placeholder="Enter description">
+    </div>
+    <div class="input-group">
+      <label for="content">Content:</label>
+      <textarea id="editcontent" [(ngModel)]="newsContent" placeholder="Enter content"></textarea>
+    </div>
+    <button (click)="saveEditChanges()">Save Changes</button>
+    <button (click)="closeEditModal()">Close</button>
+  </div>
+</div>
+

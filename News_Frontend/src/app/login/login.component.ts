@@ -39,19 +39,18 @@ export class LoginComponent {
       else if (data.is_admin == true){
         console.log("ADMIN");
         this.AuthService.setUser(data);
-        console.log("data",data)
         this.router.navigate(['/admin/dashboard']);
       }
       else if (data.is_author == true){
         console.log("AUTHOR");
         this.AuthService.setUser(data);
-        this.router.navigate(['author/news']);
+        this.router.navigate(['/user/dashboard']);
         //this.router.navigate(['/student', data.nmec]);
       }
       else{
         console.log("USER");
-        //this.AuthService.setUser(data);
-        //this.router.navigate(['/admin/dashboard']);
+        this.AuthService.setUser(data);
+        this.router.navigate(['/admin/dashboard']);
       //this.router.navigate(['/teacher', data.nmec]);
       }
     });

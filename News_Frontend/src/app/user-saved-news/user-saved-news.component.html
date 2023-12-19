@@ -1,14 +1,10 @@
-
-<!--<app-news-card *ngFor="let news of newsList" [news]="news"></app-news-card>-->
-<!--<app-news-card></app-news-card>-->
 <app-navbar></app-navbar>
 <div class="container py-4">
-    <h1 class="h1 text-center" id="pageHeaderTitle">News of {{ author_name }}</h1>
+    <h1 class="h1 text-center" id="pageHeaderTitle">Saved News</h1>
     <div class="row">
-        <div class="col-md-12" *ngFor="let news2 of newsArticles">
+        <div class="col-md-12" *ngFor="let news2 of user_saved_news">
             <app-news-card-dark [news]="news2" [news_author]="authors.get(news2.id)" [is_saved]="is_saved(news2)" (author_click)="redirectAuthor(news2)" (click_save)="saveNews(news2)" (click_unsave)="unsaveNews(news2)"></app-news-card-dark>
         </div>
        
     
 </div>
-

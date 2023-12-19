@@ -1,0 +1,79 @@
+/* comments.component.scss */
+
+.comment-section {
+    margin-top: 20px;
+  }
+  
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  
+    textarea {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      resize: vertical;
+    }
+  
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+  
+    button:hover {
+      background-color: #0056b3;
+    }
+  }
+  
+  .comment {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+  
+    .user-info {
+      margin-bottom: 10px;
+  
+      img {
+        border-radius: 50%;
+      }
+  
+      .name {
+        font-weight: bold;
+        color: #007bff;
+      }
+  
+      .date {
+        font-size: 11px;
+        color: #555;
+      }
+    }
+  
+    .comment-text {
+      font-size: 14px;
+    }
+  }
+
+/* Add this to your existing CSS or adjust as needed */
+/* Add this to your existing CSS or adjust as needed */
+.actions {
+    margin-left: 10px; /* Add some space between the date and the trash icon */
+    position: relative;
+    margin-left:auto;
+}
+
+.comment {
+    border: 1px solid #ddd; /* Add a border for better separation */
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+
+  
