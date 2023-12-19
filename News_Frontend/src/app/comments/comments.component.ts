@@ -27,6 +27,7 @@ export class CommentsComponent {
   news_comments_author: Map<number, string> = new Map<number, string>();
   currentUser = localStorage.getItem('currentUser');
   userId = localStorage.getItem('currentUserId');
+  currentUserIsAdmin = this.currentUser ? JSON.parse(this.currentUser).is_admin : false;
 
   constructor(private fb: FormBuilder) {
     this.commentForm = this.fb.group({
@@ -37,6 +38,7 @@ export class CommentsComponent {
 
   ngOnInit() {
     this.loadNewsComments();
+    console.log(this.currentUserIsAdmin);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -68,11 +70,12 @@ export class CommentsComponent {
       console.log(newCommentValue);
       this.ApiDataService.postComment(this.selectedNews.id, this.userId, newCommentValue).then((comment: any) => {
         console.log(comment);
+        this.loadNewsComments();
         
       });
       
       this.commentForm.reset();
-      this.loadNewsComments();
+      
     }
     
   }

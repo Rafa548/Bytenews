@@ -38,6 +38,7 @@ export class NavbarComponent {
     // Implement your logout logic here
     // For example, clear the token and navigate to the home page
     this.isLoggedIn = false;
+    this.AuthService.logout();    
     this.router.navigate(['/']);
   }
 
