@@ -109,7 +109,7 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
-  
+
 
   async deleteInterest(id: number): Promise<any> {
     const url = this.baseURL + '/interests/' + id;
@@ -158,7 +158,7 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
-  
+
 
   async unsaveNews(news_id:number, user_id:any): Promise<any> {
     const url = this.baseURL + '/user/' + user_id + '/unsave_news/' + news_id + '/';
@@ -178,7 +178,7 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
-  
+
 
   async createNews(json:{title:string|undefined,description:string|undefined,content:string|undefined,published_by:number|undefined,tags:any[]}): Promise<any> {
     const url = this.baseURL + '/news/';
@@ -194,11 +194,16 @@ export class ApiDataService {
     return await data.statusText ?? undefined;
   }
 
+  async getAuthorByUser(id:number): Promise<author> {
+    const url = this.baseURL + '/authors/user/' + id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
 
-  
 
-  
-  
+
+
+
   async updateAuthor(author : author): Promise<author> {
     //console.log(author)
     const id = author.id;

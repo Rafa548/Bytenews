@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {NewsCardDarkComponent} from "../news-card-dark/news-card-dark.component";
 import {NewsCardLightComponent} from "../news-card-light/news-card-light.component";
 import {NgForOf} from "@angular/common";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ApiDataService} from "../api-data.service";
 import {AuthService} from "../auth.service";
 import {author, news, publisher, user} from "../interfaces";
@@ -34,29 +34,37 @@ export class AuthorProfileComponent {
   newsContent: string | undefined;
   tags : any[] = [];
   isAuthor: boolean = false;
-  author: any = {};
+  u_id : number;
+  user : any = {};
 
-  constructor(private router: Router) {
-    this.author_data = this.AuthService.getUser();
-    console.log(this.author_data);
-    this.isAuthor=this.author_data.is_author;
-    console.log(this.isAuthor)
-    this.ApiDataService.getAuthor(this.author_data.id).then((author : author) => {
-      this.author = author;
-      this.ApiDataService.getAuthorNews(author.id).then((news1 : any) => {
-        this.newsArticles = news1;
-        console.log(this.newsArticles)
-        for (let i = 0; i < this.newsArticles.length; i++) {
-          const putblished = this.newsArticles[i].published_by;
-          this.ApiDataService.getAuthor(putblished).then((author : author) => {
-            //console.log(author);
-            this.ApiDataService.getUser(author.user).then((user : user) => {
-              //console.log(user);
-              this.authors.set(this.newsArticles[i].id, user.username);
-            });
+  constructor(private router: Router, private route: ActivatedRoute) {
+    //this.author_data = this.AuthService.getUser();
+    //console.log(this.author_data);
+    //this.isAuthor=this.author_data.is_author;
+    //console.log(this.isAuthor)
+    this.u_id = Number(this.route.snapshot.paramMap.get('id'));
+    this.ApiDataService.getUser(this.u_id).then((user : any) => {
+      this.user = user;
+      if (user.is_author) {
+        this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
+          console.log()
+          this.ApiDataService.getAuthorNews(author.id).then((news1: any) => {
+            console.log(author.id)
+            this.newsArticles = news1;
+            console.log("news",this.newsArticles)
+            for (let i = 0; i < this.newsArticles.length; i++) {
+              const published = this.newsArticles[i].published_by;
+              this.ApiDataService.getAuthor(published).then((author: author) => {
+                //console.log(author);
+                this.ApiDataService.getUser(author.user).then((user: user) => {
+                  //console.log(user);
+                  this.authors.set(this.newsArticles[i].id, user.username);
+                });
+              });
+            }
           });
-        }
-      });
+        });
+      }
     });
   }
 
@@ -90,11 +98,10 @@ export class AuthorProfileComponent {
 
 
   saveChanges () {
-    console.log(this.author_data.id);
-    console.log(this.author_data.id);
-    console.log(this.author);
-    this.ApiDataService.getAuthor(this.author.id).then((author : author) => {
-      console.log(author);
+    console.log("guhuh");
+    this.ApiDataService.getAuthorByUser(this.u_id).then((author : author) => {
+      console.log("author",author);
+      console.log("author.id",author.id);
       const news = {
         "title": this.newsTitle,
         "description": this.newsDescription,
@@ -102,19 +109,26 @@ export class AuthorProfileComponent {
         "published_by":author.id,
         "tags":this.tags
       };
-      console.log(news);
       this.ApiDataService.createNews(news).then(r => {
         console.log(r);
-        this.ApiDataService.getAuthorNews(this.author_data.id).then((news1 : any) => {
-          this.newsArticles = news1;
-          console.log(this.newsArticles)
-          for (let i = 0; i < this.newsArticles.length; i++) {
-            const putblished = this.newsArticles[i].published_by;
-            this.ApiDataService.getAuthor(putblished).then((author : author) => {
-              //console.log(author);
-              this.ApiDataService.getUser(author.user).then((user : user) => {
-                //console.log(user);
-                this.authors.set(this.newsArticles[i].id, user.username);
+        console.log("nhfejnfein",this.u_id);
+        this.ApiDataService.getUser(this.u_id).then((user : any) => {
+          this.user = user;
+          if (user.is_author) {
+            this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
+              this.ApiDataService.getAuthorNews(author.id).then((news1: any) => {
+                this.newsArticles = news1;
+                console.log(this.newsArticles)
+                for (let i = 0; i < this.newsArticles.length; i++) {
+                  const putblished = this.newsArticles[i].published_by;
+                  this.ApiDataService.getAuthor(putblished).then((author: author) => {
+                    //console.log(author);
+                    this.ApiDataService.getUser(author.user).then((user: user) => {
+                      //console.log(user);
+                      this.authors.set(this.newsArticles[i].id, user.username);
+                    });
+                  });
+                }
               });
             });
           }
@@ -140,16 +154,24 @@ export class AuthorProfileComponent {
     console.log(this.selectedNews);
     this.ApiDataService.updateNews(this.selectedNews.id, news).then(r => {
       console.log(r);
-      this.ApiDataService.getAuthorNews(this.author_data.id).then((news1 : any) => {
-        this.newsArticles = news1;
-        console.log(this.newsArticles)
-        for (let i = 0; i < this.newsArticles.length; i++) {
-          const putblished = this.newsArticles[i].published_by;
-          this.ApiDataService.getAuthor(putblished).then((author : author) => {
-            //console.log(author);
-            this.ApiDataService.getUser(author.user).then((user : user) => {
-              //console.log(user);
-              this.authors.set(this.newsArticles[i].id, user.username);
+      console.log(this.u_id);
+      this.ApiDataService.getUser(this.u_id).then((user : any) => {
+        this.user = user;
+        if (user.is_author) {
+          this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
+            this.ApiDataService.getAuthorNews(author.id).then((news1: any) => {
+              this.newsArticles = news1;
+              console.log(this.newsArticles)
+              for (let i = 0; i < this.newsArticles.length; i++) {
+                const putblished = this.newsArticles[i].published_by;
+                this.ApiDataService.getAuthor(putblished).then((author: author) => {
+                  //console.log(author);
+                  this.ApiDataService.getUser(author.user).then((user: user) => {
+                    //console.log(user);
+                    this.authors.set(this.newsArticles[i].id, user.username);
+                  });
+                });
+              }
             });
           });
         }
@@ -163,16 +185,24 @@ export class AuthorProfileComponent {
     console.log(news.id);
     this.ApiDataService.deleteNew(news.id).then(r => {
       console.log(r);
-      this.ApiDataService.getAuthorNews(this.author_data.id).then((news1 : any) => {
-        this.newsArticles = news1;
-        console.log(this.newsArticles)
-        for (let i = 0; i < this.newsArticles.length; i++) {
-          const putblished = this.newsArticles[i].published_by;
-          this.ApiDataService.getAuthor(putblished).then((author : author) => {
-            //console.log(author);
-            this.ApiDataService.getUser(author.user).then((user : user) => {
-              //console.log(user);
-              this.authors.set(this.newsArticles[i].id, user.username);
+      console.log("jjj",this.u_id);
+      this.ApiDataService.getUser(this.u_id).then((user : any) => {
+        this.user = user;
+        if (user.is_author) {
+          this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
+            this.ApiDataService.getAuthorNews(author.id).then((news1: any) => {
+              this.newsArticles = news1;
+              console.log(this.newsArticles)
+              for (let i = 0; i < this.newsArticles.length; i++) {
+                const putblished = this.newsArticles[i].published_by;
+                this.ApiDataService.getAuthor(putblished).then((author: author) => {
+                  //console.log(author);
+                  this.ApiDataService.getUser(author.user).then((user: user) => {
+                    //console.log(user);
+                    this.authors.set(this.newsArticles[i].id, user.username);
+                  });
+                });
+              }
             });
           });
         }

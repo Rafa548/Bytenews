@@ -30,7 +30,8 @@ urlpatterns = [
     path('users/<int:id>/news/', views.news_by_user), # GET /user/<id>/news/  get all news saved by user
     path('authors/', views.author_list), # GET, POST /author/  get all authors, create a new author
     path('authors/<int:id>', views.author_detail),   # GET, PUT, DELETE /author/<id>  get, update, delete an author
-    path('authors/<int:id>/news/', views.news_by_author), # GET /author/<id>/news/  get all news by author
+    path('authors/<int:author_id>/news/', views.news_by_author), # GET /author/<id>/news/  get all news by author
+    path('authors/user/<int:user_id>', views.author_by_user), # GET author by user id
     path('publishers/', views.publisher_list), # GET, POST /publisher/  get all publishers, create a new publisher
     path('publishers/<int:id>', views.publisher_detail),   # GET, PUT, DELETE /publisher/<id>  get, update, delete a publisher
     path('interests/', views.interests_list), # GET, POST /interest/  get all interests, create a new interest

@@ -23,17 +23,17 @@ export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'register', component: RegisterComponent},
     { path: 'login', component: LoginComponent },
-   
- 
+
+
     { path: 'user/dashboard', component: UserDashboardComponent},
     { path: 'user/:id/saved', component: UserSavedNewsComponent},
     { path: 'author/:id', component: AuthorNewsComponent},
     { path: 'news/:id', component: NewsPageComponent},
     { path: 'news/interest/:id', component: NewsInterestComponent},
-    { path: 'author/news/profile', component: AuthorProfileComponent},
+    { path: 'author/:id/profile', component: AuthorProfileComponent},
 
 
-    
+
     { path: 'admin/dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/news', component: AdminAllNewsComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/new/:id', component: AdminSingleNewsComponent,canActivate: [AdminAuthGuard] },

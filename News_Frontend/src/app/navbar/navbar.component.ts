@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component , inject,Input} from '@angular/core';
+import { Component , inject,Input,OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -12,13 +12,14 @@ import { AuthService } from '../auth.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
   showDropdown: boolean = false;
   showNotifications = false;
   AuthService = inject(AuthService);
   currentUser = this.AuthService.getUser();
   isLoggedIn: boolean = this.currentUser;
   @Input() isAuthor: boolean = false;
+  userId: string | undefined;
 
 
   toggleNotifications(event: Event) {
@@ -28,6 +29,10 @@ export class NavbarComponent {
   constructor(private router: Router) {
     console.log(this.currentUser);
     console.log(this.currentUser);
+  }
+
+  ngOnInit() {
+    this.userId = this.currentUser.id;
   }
 
   login() {
@@ -40,7 +45,7 @@ export class NavbarComponent {
     // Implement your logout logic here
     // For example, clear the token and navigate to the home page
     this.isLoggedIn = false;
-    this.AuthService.logout();    
+    this.AuthService.logout();
     this.router.navigate(['/']);
   }
 

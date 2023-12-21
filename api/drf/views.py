@@ -144,6 +144,20 @@ def author_detail(request, id):
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+@api_view(['GET'])
+def author_by_user(request, user_id):
+    """
+    Retrieve an author by user ID.
+    """
+    try:
+        author = Author.objects.get(user=user_id)
+    except Author.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AuthorSerializer(author)
+        return Response(serializer.data)
+
 @api_view(['GET', 'POST'])
 def publisher_list(request):
     """
@@ -252,18 +266,20 @@ def interest_detail(request, id):
 
 
 @api_view(['GET'])
-def news_by_author(request, id):
+def news_by_author(request, author_id):
     """
     Retrieve all news by an author.
     """
     try:
-        news = News.objects.filter(published_by__user_id=id)
+        news = News.objects.filter(published_by__id=author_id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
         serializer = NewsSerializer(news, many=True)
         return Response(serializer.data)
+
+
 
 @api_view(['GET'])
 def news_by_publisher(request, publisher_id):
