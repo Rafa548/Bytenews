@@ -85,6 +85,8 @@ def user_detail(request, id):
     elif request.method == 'PUT':
         serializer = CustomUserSerializer(user, data=request.data)
         if serializer.is_valid():
+            if 'password' in request.data:
+                user.set_password(request.data['password'])
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

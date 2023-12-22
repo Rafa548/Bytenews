@@ -14,7 +14,7 @@
         <li class="nav-item navbar-brand"><a class="nav-link navbar-brand"  (click)="redirectTo('saved')">Saved News</a></li>
         <ng-container *ngIf="isAuthor">
           <li class="nav-item navbar-brand">
-            <a class="nav-link navbar-brand" routerLinkActive="active" [routerLink]="['/author', userId, 'profile']">Profile</a>
+            <a class="nav-link navbar-brand" routerLinkActive="active" [routerLink]="['/author', userId, 'profile']">MyNews</a>
           </li>
           <li>
             <button type="button" class="btn btn-link" (click)="openmodal()" style="margin-top: 10px">
@@ -25,9 +25,9 @@
       </ul>
       <ul class="navbar-nav d-flex flex-row me-1">
         <li class="nav-item position-relative me-3 me-lg-0">
+        <li class="nav-item navbar-brand"><a class="nav-link navbar-brand" (click)="openProfileModal()"><i class="fas fa-gear"></i></a>
           <a href="javascript:void(0);" class="nav-link navbar-brand" id="notificationsBell" (click)="toggleNotifications($event)">
             <a *ngIf="currentUser.is_admin == true" class="nav-link" routerLink="/admin/dashboard" style=" color: aliceblue; border-radius: 5px; margin-right: 5px;" >Admin View</a>
-
             <button *ngIf="!isLoggedIn" class="button" (click)="login()">Login</button>
             <button *ngIf="isLoggedIn" class="button" (click)="logout()">Logout</button>
           </a>
@@ -69,6 +69,38 @@
     </div>
     <button (click)="saveChanges()">Save Changes</button>
     <button (click)="closeCreateModal()">Close</button>
+  </div>
+</div>
+
+<div id="profileModal" class="modal">
+  <div class="modal-content">
+    <h2>User Profile</h2>
+      <div clas="input">
+        <label for="username">Username:</label>
+        <input type="text" id="username" [(ngModel)]="user_data.username" name="username">
+      </div>
+
+      <div>
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" [(ngModel)]="user_data.first_name" name="firstname">
+      </div>
+
+      <div>
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" [(ngModel)]="user_data.last_name" name="lastname">
+      </div>
+
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" [(ngModel)]="user_data.password" name="password">
+      </div>
+
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" [(ngModel)]="user_data.email" name="email">
+      </div>
+     <button (click)="saveProfileChanges()">Save</button>
+     <button (click)="closeProfileModal()">Close</button>
   </div>
 </div>
 

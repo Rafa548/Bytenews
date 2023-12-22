@@ -32,6 +32,7 @@ export class NavbarComponent implements OnInit{
   ApiDataService = inject(ApiDataService);
   all_interests: any = [];
   dropdownVisible = false;
+  user_data: any = {};
 
 
   toggleNotifications(event: Event) {
@@ -134,5 +135,31 @@ export class NavbarComponent implements OnInit{
         this.closeCreateModal();
       });
     });
+  }
+
+  openProfileModal(){
+    const modal = document.getElementById('profileModal');
+    this.ApiDataService.getUser(Number(this.userId)).then((user : any) => {
+      this.isAuthor = user.is_author;
+      this.user_data = user;
+      console.log(this.user_data)
+    });
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+  closeProfileModal(){
+    const modal = document.getElementById('profileModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  saveProfileChanges(){
+    console.log(this.user_data)
+    this.ApiDataService.updateUser(this.user_data).then((user : any) => {
+      this.user_data = user;
+    });
+    this.closeProfileModal();
   }
 }
