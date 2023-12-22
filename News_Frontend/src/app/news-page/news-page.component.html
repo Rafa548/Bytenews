@@ -2,7 +2,7 @@
 <div class="container py-4">
     <div class="row">
         <div class="col-md-12">
-            <app-news-card-dark *ngIf="selectedNews" [news]="selectedNews" [news_author]="author" [is_saved]="is_saved(selectedNews)" (author_click)="redirectAuthor(selectedNews)" (click_save)="saveNews(selectedNews)" (click_unsave)="unsaveNews(selectedNews)"></app-news-card-dark>
+            <app-news-card-dark *ngIf="selectedNews" [news]="selectedNews" [news_author]="author" [is_saved]="is_saved(selectedNews)" [publisher]="publisher" (author_click)="redirectAuthor(selectedNews)" (publisher_click)="redirectPublisher(selectedNews)" (click_save)="saveNews(selectedNews)" (click_unsave)="unsaveNews(selectedNews)"></app-news-card-dark>
         </div>
     </div>
     <app-comments [selectedNews]="selectedNews"></app-comments>

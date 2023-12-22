@@ -18,6 +18,7 @@ import {AdminAllInterestsComponent} from "./admin-all-interests/admin-all-intere
 import {AdminSingleInterestComponent} from "./admin-single-interest/admin-single-interest.component";
 import {AdminAllPublishersComponent} from "./admin-all-publishers/admin-all-publishers.component";
 import {AdminSinglePublisherComponent} from "./admin-single-publisher/admin-single-publisher.component";
+import { PublisherPageComponent } from './publisher-page/publisher-page.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -31,6 +32,7 @@ export const routes: Routes = [
     { path: 'news/:id', component: NewsPageComponent},
     { path: 'news/interest/:id', component: NewsInterestComponent},
     { path: 'author/:id/profile', component: AuthorProfileComponent},
+    { path: 'publisher/:id', component: PublisherPageComponent},
 
 
 

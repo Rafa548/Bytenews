@@ -30,6 +30,12 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getNewsByTitle(title: string): Promise<news[]> {
+    const url = this.baseURL + '/news/' + title;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
   async getNewsComments(id: number): Promise<any> {
     const url = this.baseURL + '/news/' + id + '/comments';
     const data = await fetch(url, {method: 'GET'});
@@ -63,6 +69,12 @@ export class ApiDataService {
 
   async getNewsByInterest(id: number): Promise<news[]> {
     const url = this.baseURL + '/news/' + 'interest/' +  id;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
+  async getNewsByPublisher(id: number): Promise<news[]> {
+    const url = this.baseURL + '/news/' + 'publisher/' +  id;
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }

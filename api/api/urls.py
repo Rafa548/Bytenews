@@ -20,11 +20,13 @@ from drf import views
 
 urlpatterns = [
     path('news/', views.news_list), # GET, POST /news/  get all news, create a new news
+    path('news/<str:substring>', views.news_by_title_substring), # GET, POST /news/  get all news, create a new news
     path('news/<int:id>', views.news_detail),   # GET, PUT, DELETE /news/<id>  get, update, delete a news
     path('news/<int:news_id>/comments/', views.comments_by_news), # GET, POST /news/<id>/comments/  get all comments of a news, create a new comment
     path('news/<int:news_id>/comment/', views.comment_news), # GET, POST /news/<id>/comment/  get all comments of a news, create a new comment
     path('news/comments/<int:comment_id>', views.delete_comment),   # GET, PUT, DELETE /news/comments/<id>  get, update, delete a comment
     path('news/interest/<int:id>', views.news_by_interest), # GET /news/interest/<id>  get all news by interest
+    path('news/publisher/<int:id>', views.news_by_publisher), # GET /news/publisher/<id>  get all news by publisher
     path('users/', views.user_list), # GET, POST /user/  get all users, create a new user')
     path('users/<int:id>', views.user_detail),   # GET, PUT, DELETE /user/<id>  get, update, delete a user
     path('users/<int:id>/news/', views.news_by_user), # GET /user/<id>/news/  get all news saved by user

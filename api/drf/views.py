@@ -278,16 +278,37 @@ def news_by_author(request, author_id):
     if request.method == 'GET':
         serializer = NewsSerializer(news, many=True)
         return Response(serializer.data)
+    
+@api_view(['GET'])
+def news_by_title_substring(request, substring):
+    """
+    Retrieve all news by a title substring.
+    """
+    try:
+        news = News.objects.filter(title__icontains=substring)
+        user = CustomUser.objects.filter(username__icontains=substring)
+        author = Author.objects.filter(user__in=user)
+        news_of_author = News.objects.filter(published_by__in=author)
+        publisher = Publisher.objects.filter(name__icontains=substring)
+        author_of_publisher = Author.objects.filter(publisher__in=publisher)
+        news_of_publisher = News.objects.filter(published_by__in=author_of_publisher)
+        news = news | news_of_author | news_of_publisher
+    except News.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = NewsSerializer(news, many=True)
+        return Response(serializer.data)
 
 
 
 @api_view(['GET'])
-def news_by_publisher(request, publisher_id):
+def news_by_publisher(request, id):
     """
     Retrieve all news by a publisher.
     """
     try:
-        news = News.objects.filter(published_by__publisher_id=publisher_id)
+        news = News.objects.filter(published_by__publisher_id=id)
     except News.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

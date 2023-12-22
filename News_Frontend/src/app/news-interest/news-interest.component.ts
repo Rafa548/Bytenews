@@ -20,6 +20,7 @@ export class NewsInterestComponent {
   newsArticles: any[] = [];
   selectedNews: any = null;
   authors: Map<number, string> = new Map<number, string>();
+  publishers: Map<number, string> = new Map<number, string>();
   currentUser = localStorage.getItem('currentUser');
   userId = localStorage.getItem('currentUserId');
   user_saved_news: any[] = [];
@@ -56,6 +57,10 @@ export class NewsInterestComponent {
         const putblished = this.newsArticles[i].published_by;
         this.ApiDataService.getAuthor(putblished).then((author : author) => {
           //console.log(author);
+          this.ApiDataService.getPublisher(author.publisher).then((publisher : publisher) => {
+            //console.log(publisher);
+            this.publishers.set(this.newsArticles[i].id, publisher.name);
+          });
           this.ApiDataService.getUser(author.user).then((user : user) => {
             //console.log(user);
             this.authors.set(this.newsArticles[i].id, user.username);
@@ -82,6 +87,14 @@ export class NewsInterestComponent {
     const author_id = news.published_by;
 
     this.router.navigate(['/author', author_id]);
+
+  }
+
+  redirectPublisher(news : news) {
+    this.selectedNews = news;
+    const publisher_id = news.published_by;
+
+    this.router.navigate(['/publisher', publisher_id]);
 
   }
 

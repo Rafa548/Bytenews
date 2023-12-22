@@ -26,6 +26,7 @@ export class NewsPageComponent {
   user_saved_news: any[] = [];
   author: any = null;
   comments: any[] = [];
+  publisher: any = null;
 
   constructor(private router: Router) {
     //get news id from url
@@ -41,6 +42,10 @@ export class NewsPageComponent {
       const published = this.selectedNews.published_by;
       this.ApiDataService.getAuthor(published).then((author : author) => {
         //console.log(author);
+        this.ApiDataService.getPublisher(author.publisher).then((publisher : publisher) => {
+          //console.log(publisher);
+          this.publisher = publisher.name;
+        });
         this.ApiDataService.getUser(author.user).then((user : user) => {
           //console.log(user);
           this.author = user.username;
@@ -59,6 +64,14 @@ export class NewsPageComponent {
     const author_id = news.published_by;
 
     this.router.navigate(['/author', author_id]);
+
+  }
+
+  redirectPublisher(news : news) {
+    this.selectedNews = news;
+    const publisher_id = news.published_by;
+
+    this.router.navigate(['/publisher', publisher_id]);
 
   }
 

@@ -1,21 +1,21 @@
-import { Component, inject} from '@angular/core';
+import { Component, SimpleChanges, inject} from '@angular/core';
 import { NewsCardComponent } from '../news-card/news-card.component';
 import { NewsCardDarkComponent } from '../news-card-dark/news-card-dark.component';
 import { NewsCardLightComponent } from '../news-card-light/news-card-light.component';
 import {ApiDataService} from "../api-data.service";
-import {author, news, publisher, user} from "../interfaces";
+import {author, interest, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
-  selector: 'app-user-saved-news',
+  selector: 'app-publisher-page',
   standalone: true,
   imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent],
-  templateUrl: './user-saved-news.component.html',
-  styleUrl: './user-saved-news.component.css'
+  templateUrl: './publisher-page.component.html',
+  styleUrl: './publisher-page.component.css'
 })
-export class UserSavedNewsComponent {
+export class PublisherPageComponent {
   ApiDataService = inject(ApiDataService);
   newsArticles: any[] = [];
   selectedNews: any = null;
@@ -24,28 +24,61 @@ export class UserSavedNewsComponent {
   currentUser = localStorage.getItem('currentUser');
   userId = localStorage.getItem('currentUserId');
   user_saved_news: any[] = [];
+  publisher: publisher = { id: 0, name: ''};
+  publisher_id: number = 0;
+  url = window.location.href;
 
-  constructor(private router: Router) {
-    this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.load_content();
+    
+  }
+
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const url = window.location.href;
+      
+      this.load_content();
+    });
+  }
+
+  load_content() {
+    
+    const url = window.location.href;
+    const url_split = url.split('/');
+    const tag_id = url_split[url_split.length - 1];
+    console.log(tag_id);
+    //convert news id to int
+    const tag_id_int = parseInt(tag_id);
+    this.publisher_id = tag_id_int;
+    this.ApiDataService.getNewsByPublisher(tag_id_int).then((news : any) => {
       console.log(news);
-      this.user_saved_news = news;
-
-      for (let i = 0; i < this.user_saved_news.length; i++) {
-        const putblished = this.user_saved_news[i].published_by;
+      this.newsArticles = news;
+      for (let i = 0; i < this.newsArticles.length; i++) {
+        const putblished = this.newsArticles[i].published_by;
         this.ApiDataService.getAuthor(putblished).then((author : author) => {
           //console.log(author);
           this.ApiDataService.getPublisher(author.publisher).then((publisher : publisher) => {
             //console.log(publisher);
-            this.publishers.set(this.user_saved_news[i].id, publisher.name);
+            this.publishers.set(this.newsArticles[i].id, publisher.name);
           });
           this.ApiDataService.getUser(author.user).then((user : user) => {
             //console.log(user);
-            this.authors.set(this.user_saved_news[i].id, user.username);
+            this.authors.set(this.newsArticles[i].id, user.username);
           });
         });
       }
       //console.log(this.newsArticles);
     });
+    this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
+      console.log(news);
+      this.user_saved_news = news;
+    });
+
+    this.ApiDataService.getPublisher(tag_id_int).then((publisher : publisher) => {
+      console.log(publisher);
+      this.publisher = publisher;
+    });
+    
   }
 
   redirectAuthor(news : news) {
@@ -110,5 +143,4 @@ export class UserSavedNewsComponent {
     }
     return false;
   }
-
 }
