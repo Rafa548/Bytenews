@@ -43,7 +43,7 @@ export class AuthorProfileComponent {
     //this.isAuthor=this.author_data.is_author;
     //console.log(this.isAuthor)
     this.u_id = Number(this.route.snapshot.paramMap.get('id'));
-    this.ApiDataService.getUser(this.u_id).then((user : any) => {
+    this.ApiDataService.getUser(this.u_id).then((user : user) => {
       this.user = user;
       if (user.is_author) {
         this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
@@ -112,7 +112,7 @@ export class AuthorProfileComponent {
       this.ApiDataService.createNews(news).then(r => {
         console.log(r);
         console.log("nhfejnfein",this.u_id);
-        this.ApiDataService.getUser(this.u_id).then((user : any) => {
+        this.ApiDataService.getUser(this.u_id).then((user : user) => {
           this.user = user;
           if (user.is_author) {
             this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
@@ -155,7 +155,7 @@ export class AuthorProfileComponent {
     this.ApiDataService.updateNews(this.selectedNews.id, news).then(r => {
       console.log(r);
       console.log(this.u_id);
-      this.ApiDataService.getUser(this.u_id).then((user : any) => {
+      this.ApiDataService.getUser(this.u_id).then((user : user) => {
         this.user = user;
         if (user.is_author) {
           this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {
@@ -186,7 +186,7 @@ export class AuthorProfileComponent {
     this.ApiDataService.deleteNew(news.id).then(r => {
       console.log(r);
       console.log("jjj",this.u_id);
-      this.ApiDataService.getUser(this.u_id).then((user : any) => {
+      this.ApiDataService.getUser(this.u_id).then((user : user) => {
         this.user = user;
         if (user.is_author) {
           this.ApiDataService.getAuthorByUser(this.u_id).then((author : any) => {

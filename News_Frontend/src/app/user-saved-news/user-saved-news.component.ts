@@ -7,6 +7,7 @@ import {author, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-user-saved-news',
@@ -17,6 +18,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 })
 export class UserSavedNewsComponent {
   ApiDataService = inject(ApiDataService);
+  AuthService = inject(AuthService);
   newsArticles: any[] = [];
   selectedNews: any = null;
   authors: Map<number, string> = new Map<number, string>();
@@ -25,6 +27,10 @@ export class UserSavedNewsComponent {
   user_saved_news: any[] = [];
 
   constructor(private router: Router) {
+    this.currentUser = this.AuthService.getUser();
+    if (typeof localStorage !== 'undefined') {
+      this.userId = localStorage.getItem('currentUserId');
+    }
     this.ApiDataService.getNewsByUser(Number(this.userId)).then((news : any) => {
       console.log(news);
       this.user_saved_news = news;

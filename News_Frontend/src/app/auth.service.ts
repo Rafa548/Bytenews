@@ -8,16 +8,22 @@ export class AuthService {
   constructor() { }
 
   setUser(user: any): void {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('currentUserId', user.id);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      localStorage.setItem('currentUserId', user.id);
+    }
   }
 
   getUser(): any {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+    if (typeof localStorage !== 'undefined') {
+      const user = localStorage.getItem('currentUser');
+      return user ? JSON.parse(user) : null;
+    }
   }
 
   logout(): void {
-    localStorage.removeItem('currentUser');
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem('currentUser');
+    }
   }
 }

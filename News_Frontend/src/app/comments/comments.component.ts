@@ -8,6 +8,7 @@ import { FormsModule, FormGroup, FormBuilder, Validators, ReactiveFormsModule} f
 
 
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-comments',
@@ -22,18 +23,23 @@ export class CommentsComponent {
   ApiDataService = inject(ApiDataService);
   comments: string[] = [];
   newComment: string = '';
+  AuthService = inject(AuthService);
   commentForm: FormGroup;
   news_comments: any[] = [];
   news_comments_author: Map<number, string> = new Map<number, string>();
-  currentUser = localStorage.getItem('currentUser');
-  userId = localStorage.getItem('currentUserId');
-  currentUserIsAdmin = this.currentUser ? JSON.parse(this.currentUser).is_admin : false;
+  currentUser : any;
+  userId: any;
+  currentUserIsAdmin : any;
 
   constructor(private fb: FormBuilder) {
     this.commentForm = this.fb.group({
       newComment: ['', Validators.required],
     });
-    
+    this.currentUser = this.AuthService.getUser();
+    if (typeof localStorage !== 'undefined') {
+      this.userId = localStorage.getItem('currentUserId');
+    }
+    this.currentUserIsAdmin = this.currentUser ? JSON.parse(this.currentUser).is_admin : false;
   }
 
   ngOnInit() {
@@ -64,20 +70,20 @@ export class CommentsComponent {
   }
 
   submitComment() {
-    
+
     if (this.commentForm.valid) {
       const newCommentValue = this.commentForm.get('newComment')?.value;
       console.log(newCommentValue);
       this.ApiDataService.postComment(this.selectedNews.id, this.userId, newCommentValue).then((comment: any) => {
         console.log(comment);
         this.loadNewsComments();
-        
+
       });
-      
+
       this.commentForm.reset();
-      
+
     }
-    
+
   }
 
   deleteNewsComment(comment: any) {
@@ -91,6 +97,6 @@ export class CommentsComponent {
         console.log("Comment deleted");
       }
     });
-    
+
   }
 }

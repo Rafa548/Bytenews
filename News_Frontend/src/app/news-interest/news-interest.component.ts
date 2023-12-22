@@ -7,6 +7,7 @@ import {author, interest, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-news-interest',
@@ -19,9 +20,10 @@ export class NewsInterestComponent {
   ApiDataService = inject(ApiDataService);
   newsArticles: any[] = [];
   selectedNews: any = null;
+  AuthService = inject(AuthService);
   authors: Map<number, string> = new Map<number, string>();
-  currentUser = localStorage.getItem('currentUser');
-  userId = localStorage.getItem('currentUserId');
+  currentUser :any;
+  userId :any;
   user_saved_news: any[] = [];
   interest: interest = { id: 0, name: ''};
   interest_id: number = 0;
@@ -29,19 +31,23 @@ export class NewsInterestComponent {
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.load_content();
-    
+    this.currentUser = this.AuthService.getUser();
+    if (typeof localStorage !== 'undefined') {
+      this.userId = localStorage.getItem('currentUserId');
+    }
+
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const url = window.location.href;
-      
+
       this.load_content();
     });
   }
 
   load_content() {
-    
+
     const url = window.location.href;
     const url_split = url.split('/');
     const tag_id = url_split[url_split.length - 1];
@@ -73,7 +79,7 @@ export class NewsInterestComponent {
       console.log(interest);
       this.interest = interest;
     });
-    
+
   }
 
 

@@ -12,9 +12,6 @@ export class ApiDataService {
   async login(u_name: string, password: string): Promise<any> {
     const url = this.baseURL + '/login';
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({username: u_name, password: password}) });
-    if (!data.ok) {
-      return "ERROR";
-    }
     return await data.json() ?? undefined;
   }
 

@@ -23,6 +23,8 @@ import { NavbarAdminComponent } from '../navbar-admin/navbar-admin.component';
 })
 export class AdminSingleUserComponent {
   user : any;
+  username : string = "Username";
+  email : string = "Email";
   author : any;
   publisher: any;
   publishers : publisher[] = [];
@@ -41,7 +43,7 @@ export class AdminSingleUserComponent {
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.u_id = Number(this.route.snapshot.paramMap.get('id'));
-    this.ApiDataService.getUser(this.u_id).then((user : any) => {
+    this.ApiDataService.getUser(this.u_id).then((user : user) => {
       this.ApiDataService.getPublishers().then((publishers : any[]) => {
         this.publishers = publishers;
         this.selectedPublisher = publishers[0].id;
@@ -49,6 +51,8 @@ export class AdminSingleUserComponent {
         //console.log(typeof this.selectedPublisher);
       });
       this.user = user;
+      this.username = user.username;
+      this.email = user.email;
       //console.log(user);
       this.ApiDataService.getNewsByUser(this.u_id).then((userNews: any[]) => {
         this.userSavedNews = userNews;
@@ -127,6 +131,7 @@ export class AdminSingleUserComponent {
       this.ApiDataService.updateUser(this.user).then((response : any) => {
         //console.log(response);
       });
+      //meter delete de author
     }
   }
 }

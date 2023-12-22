@@ -22,13 +22,17 @@ export class UserDashboardComponent {
   newsArticles: any[] = [];
   selectedNews: any = null;
   authors: Map<number, string> = new Map<number, string>();
-  currentUser = localStorage.getItem('currentUser');
-  userId = localStorage.getItem('currentUserId');
+  currentUser : any;
+  userId: any;
   user_saved_news: any[] = [];
   isAuthor: boolean = false;
   author_data:any = {};
 
   constructor(private router: Router) {
+    this.currentUser = this.AuthService.getUser();
+    if (typeof localStorage !== 'undefined') {
+      this.userId = localStorage.getItem('currentUserId');
+    }
     console.log(this.currentUser)
     this.author_data = this.AuthService.getUser();
     this.isAuthor=this.author_data.is_author;
@@ -66,7 +70,7 @@ export class UserDashboardComponent {
   saveNews(news : news) {
     this.selectedNews = news;
     const user_id =Number(this.userId)
-    
+
 
     this.ApiDataService.saveNews(news.id, user_id).then((data : any) => {
       console.log(data);
@@ -112,5 +116,5 @@ export class UserDashboardComponent {
   }
 
 
-  
+
 }

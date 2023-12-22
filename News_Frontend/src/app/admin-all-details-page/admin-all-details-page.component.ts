@@ -4,6 +4,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {NavbarComponent} from "../navbar/navbar.component";
 import { NavbarAdminComponent } from '../navbar-admin/navbar-admin.component';
 import {FormsModule} from "@angular/forms";
+import {user} from "../interfaces";
 
 @Component({
   selector: 'app-admin-all-details-page',
@@ -23,6 +24,7 @@ import {FormsModule} from "@angular/forms";
 export class AdminAllDetailsPageComponent {
   @Input() title: string = " ";
   @Input() items: any[] = [];
+  @Input() users: user[] = [];
   @Input() is_news: boolean = false;
   @Input() is_user: boolean = false;
   @Input() is_interest: boolean = false;

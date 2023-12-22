@@ -4,6 +4,7 @@ import {Router, RouterLink} from '@angular/router';
 import {NgIf} from "@angular/common";
 import { ApiDataService } from '../api-data.service';
 import { AuthService } from '../auth.service';
+import {user} from "../interfaces";
 
 @Component({
   selector: 'app-login',
@@ -26,22 +27,20 @@ export class LoginComponent {
   constructor(private router : Router) {
 
   }
-
-
   login() {
-    this.ApiDataService.login(this.email, this.password).then((data : any) => {
+    this.ApiDataService.login(this.email, this.password).then((data : user) => {
       console.log(data);
-      if (data == "ERROR") {
+      if (data == undefined) {
         this.error = "Wrong credentials";
         return;
       }
 
-      else if (data.is_admin == true){
+      else if (data.is_admin){
         console.log("ADMIN");
         this.AuthService.setUser(data);
         this.router.navigate(['/admin/dashboard']);
       }
-      else if (data.is_author == true){
+      else if (data.is_author){
         console.log("AUTHOR");
         this.AuthService.setUser(data);
         this.router.navigate(['/user/dashboard']);

@@ -15,7 +15,7 @@
   </div>
 
   <div class="row mt-4" *ngIf="is_user">
-    <div class="col-md-4 mb-4" *ngFor="let user of items">
+    <div class="col-md-4 mb-4" *ngFor="let user of users">
       <app-card
         [title]="user.username"
         [showIcon]="user.is_author"
