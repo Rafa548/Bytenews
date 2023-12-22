@@ -1,8 +1,7 @@
 
 <!--<app-news-card *ngFor="let news of newsList" [news]="news"></app-news-card>-->
 <!--<app-news-card></app-news-card>-->
-<app-navbar [isAuthor]="isAuthor"></app-navbar>
-<button (click)="openmodal()">open modal</button>
+<app-navbar [isAuthor]="this.isAuthor"></app-navbar>
 <div class="container py-4">
   <h1 class="h1 text-center" id="pageHeaderTitle">Profile</h1>
   <div class="row">
@@ -18,40 +17,36 @@
   </div>
 </div>
 
-<div id="createModal" class="modal">
-  <div class="modal-content">
-    <h2>Create New News</h2>
-    <div class="input-group">
-      <label for="title">Title:</label>
-      <input type="text" id="title" [(ngModel)]="newsTitle" placeholder="Enter title">
-    </div>
-    <div class="input-group">
-      <label for="description">Description:</label>
-      <input type="text" id="description" [(ngModel)]="newsDescription" placeholder="Enter description">
-    </div>
-    <div class="input-group">
-      <label for="content">Content:</label>
-      <textarea id="content" [(ngModel)]="newsContent" placeholder="Enter content"></textarea>
-    </div>
-    <button (click)="saveChanges()">Save Changes</button>
-    <button (click)="closeCreateModal()">Close</button>
-  </div>
-</div>
+
 
 <div id="editModal" class="modaledit">
   <div class="modaledit-content">
     <h2>Edit New</h2>
     <div class="input-group">
-      <label for="title">Title:</label>
+      <label>Title:</label>
       <input type="text" id="edittitle" [(ngModel)]="newsTitle" placeholder="Enter title">
     </div>
     <div class="input-group">
-      <label for="description">Description:</label>
+      <label >Description:</label>
       <input type="text" id="editdescription" [(ngModel)]="newsDescription" placeholder="Enter description">
     </div>
     <div class="input-group">
-      <label for="content">Content:</label>
+      <label >Content:</label>
       <textarea id="editcontent" [(ngModel)]="newsContent" placeholder="Enter content"></textarea>
+    </div>
+    <div class="input-group">
+      <label>Interests:</label>
+      <div id="tags-container">
+        <div *ngFor="let interest of all_interests">
+          <input
+            type="checkbox"
+            id="interest{{ interest.id }}"
+            [checked]="isInterestSelected(interest.id)"
+            (change)="toggleInterestSelection(interest.id)"
+          />
+          <label for="interest{{ interest.id }}">{{ interest.name }}</label>
+        </div>
+      </div>
     </div>
     <button (click)="saveEditChanges()">Save Changes</button>
     <button (click)="closeEditModal()">Close</button>

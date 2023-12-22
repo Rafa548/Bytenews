@@ -25,8 +25,12 @@ export class UserSavedNewsComponent {
   currentUser = localStorage.getItem('currentUser');
   userId = localStorage.getItem('currentUserId');
   user_saved_news: any[] = [];
+  isAuthor: boolean = false;
 
   constructor(private router: Router) {
+    this.ApiDataService.getUser(Number(this.userId)).then((user : any) => {
+      this.isAuthor = user.is_author;
+    });
     this.currentUser = this.AuthService.getUser();
     if (typeof localStorage !== 'undefined') {
       this.userId = localStorage.getItem('currentUserId');
