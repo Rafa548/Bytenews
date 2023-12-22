@@ -1,0 +1,13 @@
+{
+  "routes": [
+    "/admin/dashboard",
+    "/admin/interests",
+    "/admin/news",
+    "/admin/publishers",
+    "/admin/users",
+    "/login",
+    "/register",
+    "/unauthorized",
+    "/user/dashboard"
+  ]
+}
