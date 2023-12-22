@@ -13,7 +13,9 @@ export class AuthGuard implements CanActivate {
 
     if (user && user.id === Number(this.route.snapshot.paramMap.get('id'))) {
       return true;
-    } else {
+
+    }
+    else {
       this.router.navigate(['/unauthorized']);
       return false;
     }

@@ -131,7 +131,10 @@ export class AdminSingleUserComponent {
       this.ApiDataService.updateUser(this.user).then((response : any) => {
         //console.log(response);
       });
-      //meter delete de author
+      this.ApiDataService.deleteAuthor(this.author.id).then((response : any) => {
+        //console.log(response);
+
+      } );
     }
   }
 }

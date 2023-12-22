@@ -9,11 +9,6 @@
       <app-news-card-dark [showButton]="true"   [news]="news2" [news_author]="authors.get(news2.id)" (author_click)="redirectAuthor(news2)" (deleteClick)="onDeleteClick(news2)"
                           (editClick)="onEditClick(news2)"></app-news-card-dark>
     </div>
-    <div class="col-md-12" *ngFor="let news of newsArticles">
-      <app-news-card-light></app-news-card-light>
-    </div>
-    <app-news-card-dark [showButton]="true"></app-news-card-dark>
-    <app-news-card-light></app-news-card-light>
   </div>
 </div>
 

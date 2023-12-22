@@ -39,12 +39,8 @@ export class CommentsComponent {
     if (typeof localStorage !== 'undefined') {
       this.userId = localStorage.getItem('currentUserId');
     }
-    this.currentUserIsAdmin = this.currentUser ? JSON.parse(this.currentUser).is_admin : false;
-  }
-
-  ngOnInit() {
+    this.currentUserIsAdmin = this.currentUser.is_admin;
     this.loadNewsComments();
-    console.log(this.currentUserIsAdmin);
   }
 
   ngOnChanges(changes: SimpleChanges) {

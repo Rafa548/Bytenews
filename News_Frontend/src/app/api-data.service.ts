@@ -51,6 +51,12 @@ export class ApiDataService {
     return await data.statusText ?? undefined;
   }
 
+  async deleteAuthor(id: number): Promise<any> {
+    const url = this.baseURL + '/authors/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
+  }
+
   async updateNew(news : news): Promise<news> {
     const id = news.id;
     const url = this.baseURL + '/news/' + id;
