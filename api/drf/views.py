@@ -295,6 +295,7 @@ def news_by_publisher(request, publisher_id):
         serializer = NewsSerializer(news, many=True)
         return Response(serializer.data)
 
+
 @api_view(['GET'])
 def news_by_interest(request, id):
     """
@@ -400,6 +401,46 @@ def unsave_news(request, news_id, user_id):
         return Response(status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+def comments_list(request):
+    """
+    Retrieve all comments.
+    """
+    try:
+        comments = Comment.objects.all()
+    except Comment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+@api_view(['PUT', 'DELETE', 'GET'])
+def comment_detail(request, comment_id):
+    """
+    Retrieve, update or delete a comment instance.
+    """
+    try:
+        comment = Comment.objects.get(pk=comment_id)
+    except Comment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CommentSerializer(comment)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = CommentSerializer(comment, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        comment.delete()
+        return Response(status=status.HTTP_200_OK)
+
+@api_view(['GET'])
 def comments_by_news(request, news_id):
     """
     Retrieve all comments by a news.
@@ -447,12 +488,12 @@ def delete_comment(request, comment_id):
     
 
 @api_view(['GET'])
-def comments_by_user(request, user_id):
+def comments_by_user(request, id):
     """
     Retrieve all comments by a user.
     """
     try:
-        comments = Comment.objects.filter(user_id=user_id)
+        comments = Comment.objects.filter(user=id)
     except Comment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -468,20 +509,6 @@ def comments_by_user_news(request, user_id, news_id):
     """
     try:
         comments = Comment.objects.filter(user_id=user_id, news_id=news_id)
-    except Comment.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-
-@api_view(['GET']) #apagar talvez
-def comments_by_user_publisher(request, user_id, publisher_id):
-    """
-    Retrieve all comments by a user and publisher.
-    """
-    try:
-        comments = Comment.objects.filter(user_id=user_id, news__published_by__publisher_id=publisher_id)
     except Comment.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

@@ -19,6 +19,8 @@ from django.urls import path
 from drf import views
 
 urlpatterns = [
+    path('login', views.login), # POST /login/  login a user
+    path('register',views.register), # POST /register/  register a new user
     path('news/', views.news_list), # GET, POST /news/  get all news, create a new news
     path('news/<int:id>', views.news_detail),   # GET, PUT, DELETE /news/<id>  get, update, delete a news
     path('news/<int:news_id>/comments/', views.comments_by_news), # GET, POST /news/<id>/comments/  get all comments of a news, create a new comment
@@ -37,13 +39,12 @@ urlpatterns = [
     path('interests/', views.interests_list), # GET, POST /interest/  get all interests, create a new interest
     path('interests/<int:id>', views.interest_detail),   # GET, PUT, DELETE /interest/<id>  get, update, delete an interest
     path('publishers/<int:id>/authors/', views.authors_by_publisher), # GET /publisher/<id>/authors/  get all authors by publisher
-
-    path('login', views.login),
-    path('register',views.register),
-    path('user/<int:user_id>/save_news/<int:news_id>/', views.save_news, name='save_news'),
-    path('user/<int:user_id>/unsave_news/<int:news_id>/', views.unsave_news, name='unsave_news'),
-    path('user/<int:user_id>/saved_news/', views.news_by_user, name='saved_news'),
+    path('user/<int:user_id>/save_news/<int:news_id>/', views.save_news), # GET /user/<id>/news/  get all news saved by user
+    path('user/<int:user_id>/unsave_news/<int:news_id>/', views.unsave_news), # GET /user/<id>/news/  get all news saved by user
+    path('user/<int:user_id>/saved_news/', views.news_by_user), # GET /user/<id>/news/  get all news saved by user
     path('interests/', views.interests_list), # GET, POST /interest/  get all interests, create a new interest
     path('interests/<int:id>', views.interest_detail),   # GET, PUT, DELETE /interest/<id>  get, update, delete an interest
-    
+    path('comments/', views.comments_list), # GET, POST /comment/  get all comments, create a new comment
+    path('comments/<int:id>', views.comment_detail),   # GET, PUT, DELETE /comment/<id>  get, update, delete a comment
+    path('comments/user/<int:id>', views.comments_by_user), # GET /comment/user/<id>  get all comments by user
 ]

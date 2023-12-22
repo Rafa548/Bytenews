@@ -33,6 +33,12 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getCommentsByUser(id: number): Promise<any> {
+    const url = this.baseURL + '/comments/'+ 'user/' + id ;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
   async postComment(id: number, user_id: any, comment: string): Promise<any> {
     const url = this.baseURL + '/news/' + id + '/comment/';
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({user: user_id, text: comment}) });

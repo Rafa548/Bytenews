@@ -78,8 +78,23 @@
       </div>
     </div>
     <div *ngIf="activeTab === 'comments'">
-      <h4>This is the Comments Tab</h4>
-      <p>Some default content for Comments...</p>
+      <div class="card">
+        <div class="card-body">
+          <div *ngFor="let comment of userComments" class="card mb-3">
+            <div class="card-body">
+              <p class="card-text">{{ comment.text }}</p>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="viewNewsDetails(comment.news)">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn btn-danger " (click)="deleteComment(comment.id)">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
