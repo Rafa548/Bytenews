@@ -28,7 +28,7 @@ export class ApiDataService {
   }
 
   async getNewsByTitle(title: string): Promise<news[]> {
-    const url = this.baseURL + '/news/' + title;
+    const url = this.baseURL + '/news/search/' + title;
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
@@ -204,8 +204,6 @@ export class ApiDataService {
     const data = await fetch(url, {method: 'GET'});
     return await data.json() ?? undefined;
   }
-
-
 
   async createNews(json:{title:string|undefined,description:string|undefined,content:string|undefined,published_by:number|undefined,tags:any[]}): Promise<any> {
     const url = this.baseURL + '/news/';

@@ -22,7 +22,7 @@ urlpatterns = [
     path('login', views.login), # POST /login/  login a user
     path('register',views.register), # POST /register/  register a new user
     path('news/', views.news_list), # GET, POST /news/  get all news, create a new news
-    path('news/<str:substring>', views.news_by_title_substring), # GET, POST /news/  get all news, create a new news
+    path('news/search/<str:substring>', views.news_by_title_substring), # GET, POST /news/  get all news, create a new news
     path('news/<int:id>', views.news_detail),   # GET, PUT, DELETE /news/<id>  get, update, delete a news
     path('news/<int:news_id>/comments/', views.comments_by_news), # GET, POST /news/<id>/comments/  get all comments of a news, create a new comment
     path('news/<int:news_id>/comment/', views.comment_news), # GET, POST /news/<id>/comment/  get all comments of a news, create a new comment
