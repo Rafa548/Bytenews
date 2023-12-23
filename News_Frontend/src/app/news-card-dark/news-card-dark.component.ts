@@ -67,8 +67,7 @@ export class NewsCardDarkComponent {
 
   constructor(private router: Router) {
 
-    console.log(this.currentUser);
-    console.log(this.is_saved);
+    
     this.currentUser = this.authservice.getUser();
 
     this.ApiDataService.getInterests().then((interests : any) => {
