@@ -47,4 +47,5 @@ urlpatterns = [
     path('comments/', views.comments_list), # GET, POST /comment/  get all comments, create a new comment
     path('comments/<int:id>', views.comment_detail),   # GET, PUT, DELETE /comment/<id>  get, update, delete a comment
     path('comments/user/<int:id>', views.comments_by_user), # GET /comment/user/<id>  get all comments by user
+    path('admin/add_user', views.registerByAdmin), # GET /admin/add_user  add a user')
 ]

@@ -642,6 +642,45 @@ def register(request):
             status=status.HTTP_201_CREATED
         )
 
+@api_view(['POST'])
+def registerByAdmin(request):
+    """
+    Register a user.
+    """
+    if request.method == 'POST':
+        username = request.data['username']
+        password = request.data['password']
+        email = request.data['email']
+        first_name = request.data['firstName']
+        last_name = request.data['lastName']
+        is_author = request.data['is_author']
+        is_admin = False
+        user = CustomUser.objects.create_user(
+            username=username,
+            password=password,
+            email=email,
+            first_name=first_name,
+            last_name=last_name
+        )
+        user.is_author = is_author
+        user.save()
+        user_profile = UserProfile.objects.create(user=user)
+
+        user_serializer = CustomUserSerializer(data=user)
+        if user_serializer.is_valid():
+            user_serializer.save()
+
+        profile_serializer = UserProfileSerializer(data=user_profile)
+        if profile_serializer.is_valid():
+            profile_serializer.save()
+
+        return Response(
+            {'user': user_serializer.data, 'user_profile': profile_serializer.data},
+            status=status.HTTP_201_CREATED
+        )
+
+
+
     
 @api_view(['GET', 'POST'])
 def interests_list(request):

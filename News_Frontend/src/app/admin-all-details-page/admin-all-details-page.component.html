@@ -124,7 +124,7 @@
               <select id="publisher" name="publisher" class="form-select" [(ngModel)]="selectedPublisher" required>
                 <option value="" disabled>Publisher</option>
                 <!-- Populate options dynamically from your data -->
-                <option *ngFor="let publisher of publishers" [value]="publisher">{{ publisher }}</option>
+                <option *ngFor="let publisher of publishers" [value]="publisher.id">{{ publisher.name }}</option>
               </select>
             </div>
           </div>

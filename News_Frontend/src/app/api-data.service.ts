@@ -156,6 +156,12 @@ export class ApiDataService {
     return await data.statusText ?? undefined;
   }
 
+  async registerAdmin(json:{email:string,password:string,username:string,firstName:string,lastName:string,is_author:boolean}): Promise<any> {
+    const url = this.baseURL + '/admin/add_user';
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
+
   async saveNews(news_id:number, user_id:any): Promise<any> {
     const url = this.baseURL + '/user/' + user_id + '/save_news/' + news_id + '/';
     const data = await fetch(url, {method: 'POST'});
