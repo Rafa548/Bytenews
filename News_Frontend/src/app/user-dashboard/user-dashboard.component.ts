@@ -1,7 +1,7 @@
 import { Component, inject} from '@angular/core';
-import { NewsCardComponent } from '../news-card/news-card.component';
+
 import { NewsCardDarkComponent } from '../news-card-dark/news-card-dark.component';
-import { NewsCardLightComponent } from '../news-card-light/news-card-light.component';
+
 import {ApiDataService} from "../api-data.service";
 import {AuthService} from "../auth.service";
 import {author, news, publisher, user} from "../interfaces";
@@ -14,7 +14,7 @@ import { FormsModule, FormGroup, FormBuilder, Validators, ReactiveFormsModule} f
 @Component({
   selector: 'app-user-dashboard',
   standalone: true,
-  imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent, FormsModule, ReactiveFormsModule],
+  imports: [NewsCardDarkComponent, NgIf, NgFor, NavbarComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './user-dashboard.component.html',
   styleUrl: './user-dashboard.component.css'
 })
@@ -51,6 +51,7 @@ export class UserDashboardComponent {
 
       for (let i = 0; i < this.newsArticles.length; i++) {
         const published = this.newsArticles[i].published_by;
+        console.log("published", published);
         this.ApiDataService.getAuthor(published).then((author : author) => {
           //console.log(author);
           this.ApiDataService.getPublisher(author.publisher).then((publisher : publisher) => {

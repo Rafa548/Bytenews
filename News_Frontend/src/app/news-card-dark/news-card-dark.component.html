@@ -15,8 +15,8 @@
             <ul class="postcard__tagbox">
                 <li class="tag__item" (click)="onAuthorClick()"><i class="fa-solid fa-feather"></i> {{ news_author }}</li>
                 <li class="tag__item" (click)="onPublisherClick()"><i class="fa fa-building" aria-hidden="true"></i>  {{ publisher }}</li>
-                <li class="tag__item" (click)="ClickSave()" *ngIf="is_saved == false"><i class="fa fa-bookmark" aria-hidden="false"></i> Save</li>
-                <li class="tag__item" (click)="ClickUnSave()" *ngIf="is_saved == true"><i class="fa fa-bookmark" aria-hidden="true"></i> Unsave</li>
+                <li *ngIf="currentUser.is_admin == false && is_saved == false" class="tag__item" (click)="ClickSave()"><i class="fa fa-bookmark" aria-hidden="false"></i> Save</li>
+                <li *ngIf="currentUser.is_admin == false && is_saved == true" class="tag__item" (click)="ClickUnSave()"><i class="fa fa-bookmark" aria-hidden="true"></i> Unsave</li>
                 <div class="postcard__tagbox__title" style="margin-left: auto;">
                 <li *ngFor="let tag of news.tags"  class="tag__item" (click)="ClickTag(tag)"><i class="fa fa-tag" aria-hidden="true"></i>{{ tags_names.get(tag) }}</li>
                 </div>

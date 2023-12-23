@@ -1,7 +1,5 @@
 import { Component, SimpleChanges, inject} from '@angular/core';
-import { NewsCardComponent } from '../news-card/news-card.component';
 import { NewsCardDarkComponent } from '../news-card-dark/news-card-dark.component';
-import { NewsCardLightComponent } from '../news-card-light/news-card-light.component';
 import {ApiDataService} from "../api-data.service";
 import {AuthService} from "../auth.service";
 import {author, interest, news, publisher, user} from "../interfaces";
@@ -12,7 +10,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
 @Component({
   selector: 'app-publisher-page',
   standalone: true,
-  imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent],
+  imports: [ NewsCardDarkComponent, NgIf, NgFor, NavbarComponent],
   templateUrl: './publisher-page.component.html',
   styleUrl: './publisher-page.component.css'
 })

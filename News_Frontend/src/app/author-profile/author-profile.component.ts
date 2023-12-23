@@ -1,6 +1,5 @@
 import {Component, inject} from '@angular/core';
 import {NewsCardDarkComponent} from "../news-card-dark/news-card-dark.component";
-import {NewsCardLightComponent} from "../news-card-light/news-card-light.component";
 import {NgForOf} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiDataService} from "../api-data.service";
@@ -14,7 +13,7 @@ import {NavbarComponent} from "../navbar/navbar.component";
   standalone: true,
   imports: [
     NewsCardDarkComponent,
-    NewsCardLightComponent,
+    
     NgForOf,
     FormsModule,
     NavbarComponent

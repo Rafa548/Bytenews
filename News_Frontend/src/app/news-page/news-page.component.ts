@@ -1,7 +1,7 @@
 import { Component, inject} from '@angular/core';
-import { NewsCardComponent } from '../news-card/news-card.component';
+
 import { NewsCardDarkComponent } from '../news-card-dark/news-card-dark.component';
-import { NewsCardLightComponent } from '../news-card-light/news-card-light.component';
+
 import {ApiDataService} from "../api-data.service";
 import {author, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
@@ -13,7 +13,7 @@ import { AuthService } from '../auth.service';
 @Component({
   selector: 'app-news-page',
   standalone: true,
-  imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent, CommentsComponent],
+  imports: [ NewsCardDarkComponent, NgIf, NgFor, NavbarComponent, CommentsComponent],
 
   templateUrl: './news-page.component.html',
   //styleUrl: './news-page.component.css'
