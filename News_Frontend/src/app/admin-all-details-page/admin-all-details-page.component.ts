@@ -33,7 +33,7 @@ export class AdminAllDetailsPageComponent {
   @Output() childViewEvent = new EventEmitter<any>();
   @Output() childDeleteEvent = new EventEmitter<any>();
   @Output() ScroolToBottomClicked = new EventEmitter<any>();
-  @Output() modalAddUserClicked = new EventEmitter<any>();
+  @Output() modalAddClicked = new EventEmitter<any>();
   isModalOpen: boolean = false;
   newUser: any;
   userType: string = 'User'
@@ -101,7 +101,7 @@ export class AdminAllDetailsPageComponent {
       this.selectedPublisher = '';
       this.i_name = '';
       this.ScrollToBottom();
-      this.modalAddUserClicked.emit();
+      this.modalAddClicked.emit();
     });
     if (this.is_author) {
       this.ApiDataService.getUsers().then((users : any[]) => {
@@ -150,7 +150,7 @@ export class AdminAllDetailsPageComponent {
       this.closeModalInterest();
       this.i_name = '';
       this.ScrollToBottom();
-      this.modalAddUserClicked.emit();
+      this.modalAddClicked.emit();
     });
 
   }
@@ -171,7 +171,7 @@ export class AdminAllDetailsPageComponent {
       this.closeModalPublisher();
       this.i_name = '';
       this.ScrollToBottom();
-      this.modalAddUserClicked.emit();
+      this.modalAddClicked.emit();
     });
 
   }

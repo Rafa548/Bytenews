@@ -57,4 +57,11 @@ export class AdminAllPublishersComponent {
     });
 
   }
+
+  reload() {
+    this.ApiDataService.getPublishers().then((publishers : any[]) => {
+      this.publishers = publishers;
+      //console.log(publishers);
+    } );
+  }
 }

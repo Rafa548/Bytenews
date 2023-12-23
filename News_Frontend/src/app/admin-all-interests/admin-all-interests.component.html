@@ -3,7 +3,8 @@
   [items]="interests"
   [is_interest]="true"
   (childViewEvent)="navigateToInterestDetails($event)"
-  (childDeleteEvent)="deleteInterest($event)">
+  (childDeleteEvent)="deleteInterest($event)"
+  (modalAddClicked)="reload()">
 </app-admin-all-details-page>
 
 

@@ -35,4 +35,10 @@ export class AdminAllInterestsComponent {
   navigateToInterestDetails(id: number) {
     this.router.navigate(['/admin/interests', id]);
   }
+
+  reload() {
+    this.ApiDataService.getInterests().then((interests: interest[]) => {
+      this.interests = interests;
+    });
+  }
 }

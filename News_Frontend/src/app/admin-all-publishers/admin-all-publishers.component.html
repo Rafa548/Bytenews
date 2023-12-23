@@ -3,7 +3,8 @@
   [items]="publishers"
   [is_publisher]="true"
   (childViewEvent)="navigateToDetails($event)"
-  (childDeleteEvent)="delete($event)">
+  (childDeleteEvent)="delete($event)"
+  (modalAddClicked)="reload()">
 </app-admin-all-details-page>
 
 
