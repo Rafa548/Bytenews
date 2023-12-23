@@ -51,4 +51,14 @@ export class AdminAllUsersComponent {
     });
   }
 
+  reload() {
+    this.ApiDataService.getUsers().then((users: user[]) => {
+      this.users = users;
+      for (let user of this.users) { // Remove all admin users from the list
+        if (user.is_admin) {
+          this.users.splice(this.users.indexOf(user), 1);
+        }
+      }
+    });
+  }
 }

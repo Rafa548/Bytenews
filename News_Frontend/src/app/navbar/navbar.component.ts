@@ -1,14 +1,17 @@
-import { NgIf } from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import { Component , inject,Input,OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { AuthService } from '../auth.service';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ApiDataService} from "../api-data.service";
+import {author, news, publisher, user} from "../interfaces";
 
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLinkActive, RouterLink],
+  imports: [NgIf, RouterLinkActive, RouterLink, NgForOf, ReactiveFormsModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -20,6 +23,16 @@ export class NavbarComponent implements OnInit{
   isLoggedIn: boolean = this.currentUser;
   @Input() isAuthor: boolean = false;
   userId: string | undefined;
+  newsTitle: string | undefined;
+  newsDescription: string | undefined;
+  newsContent: string | undefined;
+  tags : any[] = [];
+  all_dropdown_interests: any = [];
+  selectedDropdownInterests: any[] = [];
+  ApiDataService = inject(ApiDataService);
+  all_interests: any = [];
+  dropdownVisible = false;
+  user_data: any = {};
 
 
   toggleNotifications(event: Event) {
@@ -67,5 +80,86 @@ export class NavbarComponent implements OnInit{
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
+  }
+
+  toggleDropdownInterestSelection(interestId: number): void {
+    if (this.isDropdownInterestSelected(interestId)) {
+      this.selectedDropdownInterests = this.selectedDropdownInterests.filter(id => id !== interestId);
+    } else {
+      this.selectedDropdownInterests.push(interestId);
+    }
+  }
+
+  isDropdownInterestSelected(interestId: number): boolean {
+    return this.selectedDropdownInterests.includes(interestId);
+  }
+
+  toggleDropdown1(): void {
+    this.dropdownVisible = !this.dropdownVisible;
+  }
+
+  openmodal() {
+    const modal = document.getElementById('createModal');
+    this.ApiDataService.getInterests().then((interests : any) => {
+      console.log(interests);
+      this.all_interests = interests;
+      this.all_dropdown_interests=interests;
+    });
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+
+  closeCreateModal() {
+    const modal = document.getElementById('createModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  saveChanges () {
+    console.log("guhuh");
+    this.ApiDataService.getAuthorByUser(this.currentUser.id).then((author : author) => {
+      console.log("author",author);
+      console.log("author.id",author.id);
+      console.log("tags",this.selectedDropdownInterests);
+      const news = {
+        "title": this.newsTitle,
+        "description": this.newsDescription,
+        "content": this.newsContent,
+        "published_by":author.id,
+        "tags":this.selectedDropdownInterests
+      };
+      this.ApiDataService.createNews(news).then(r => {
+        console.log(r);
+        this.closeCreateModal();
+      });
+    });
+  }
+
+  openProfileModal(){
+    const modal = document.getElementById('profileModal');
+    this.ApiDataService.getUser(Number(this.userId)).then((user : any) => {
+      this.isAuthor = user.is_author;
+      this.user_data = user;
+      console.log(this.user_data)
+    });
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+  closeProfileModal(){
+    const modal = document.getElementById('profileModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  }
+
+  saveProfileChanges(){
+    console.log(this.user_data)
+    this.ApiDataService.updateUser(this.user_data).then((user : any) => {
+      this.user_data = user;
+    });
+    this.closeProfileModal();
   }
 }

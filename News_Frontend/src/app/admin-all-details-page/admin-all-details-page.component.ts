@@ -1,9 +1,11 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {CardComponent} from "../card/card.component";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {NavbarComponent} from "../navbar/navbar.component";
 import { NavbarAdminComponent } from '../navbar-admin/navbar-admin.component';
 import {FormsModule} from "@angular/forms";
+import {user} from "../interfaces";
+import { ApiDataService } from '../api-data.service';
 
 @Component({
   selector: 'app-admin-all-details-page',
@@ -23,12 +25,14 @@ import {FormsModule} from "@angular/forms";
 export class AdminAllDetailsPageComponent {
   @Input() title: string = " ";
   @Input() items: any[] = [];
+  @Input() users: user[] = [];
   @Input() is_news: boolean = false;
   @Input() is_user: boolean = false;
   @Input() is_interest: boolean = false;
   @Output() childViewEvent = new EventEmitter<any>();
   @Output() childDeleteEvent = new EventEmitter<any>();
   @Output() ScroolToBottomClicked = new EventEmitter<any>();
+  @Output() modalAddUserClicked = new EventEmitter<any>();
   isModalOpen: boolean = false;
   newUser: any;
   userType: string = 'User'
@@ -36,10 +40,23 @@ export class AdminAllDetailsPageComponent {
   firstName: any;
   lastName: any;
   email: any;
+  author: any;
   password: any;
-  publishers: any[] = ["wdjsaijdiadj","djsiaidhjai"];
+  publishers: any[] = [];
   selectedPublisher: any;
   i_name: any;
+  ApiDataService = inject(ApiDataService);
+  is_author: boolean = false;
+
+  constructor() {
+    this.ApiDataService.getPublishers().then((publishers : any[]) => {
+      this.publishers = publishers;
+      this.selectedPublisher = publishers[0].id;
+      //console.log(publishers);
+      //console.log(typeof this.selectedPublisher);
+    });
+  }
+
 
   handleViewClickEvent(article_id:number) {
     this.childViewEvent.emit(article_id);
@@ -64,6 +81,39 @@ export class AdminAllDetailsPageComponent {
   }
 
   addUser() {
+    if (this.userType == 'User') {
+      this.is_author = false;
+    }
+    if (this.userType == 'Author') {
+      this.is_author = true;
+    }
+    this.ApiDataService.registerAdmin({email: this.email, password: this.password, username: this.username, firstName: this.firstName, lastName: this.lastName,is_author:this.is_author}).then((response: any) => {
+      console.log(response);
+      this.closeModalUser();
+      this.userType = 'User';
+      this.username = '';
+      this.firstName = '';
+      this.lastName = '';
+      this.email = '';
+      this.password = '';
+      this.selectedPublisher = '';
+      this.i_name = '';
+      this.ScrollToBottom();
+      this.modalAddUserClicked.emit();
+    });
+    if (this.is_author) {
+      this.ApiDataService.getUsers().then((users : any[]) => {
+        this.newUser = users[users.length - 1];
+        //console.log(this.newUser);
+        this.author = {
+          user: this.newUser.id,
+          publisher: this.selectedPublisher
+        }
+        this.ApiDataService.createAuthor(this.author).then((response: any) => {
+          //console.log(response);
+        });
+      });
+    }
 
   }
 

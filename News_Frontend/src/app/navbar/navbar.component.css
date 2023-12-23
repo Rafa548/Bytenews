@@ -6,7 +6,7 @@
 .notification-dropdown {
   position: absolute;
   top: 100%;
-  right: 0;  
+  right: 0;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
@@ -27,7 +27,7 @@
 .custom-dropdown {
   display: none;
   position: absolute;
-  
+
   right: 0;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -39,8 +39,8 @@
 
 .custom-dropdown.show {
   display: flex;
-  
-  
+
+
 }
 
 .notification-item {
@@ -79,7 +79,7 @@
   padding: 8px 16px;
   font-size: 14px;
   cursor: pointer;
-} 
+}
 
 .button:hover {
   background-color: #434242;
@@ -143,3 +143,165 @@
 .created-date {
   margin-left: 10px;
 }
+
+.modal {
+  display: none; /* Hide the modal by default */
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* Style for the modal content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+.modal-content input{
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.modal-content label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.modal-content .input-group textarea {
+  margin-top: 5px;
+}
+
+.modal-content textarea {
+  height: 100px;
+  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 8px;
+}
+
+
+.modal-content button {
+  padding: 10px 20px; /* Add padding to the buttons */
+  margin-left: 10px; /* Add space between buttons */
+  margin-bottom: 10px;
+  border: none; /* Remove default button borders */
+  border-radius: 5px; /* Add border-radius for rounded corners */
+  background-color: #007BFF; /* Change button background color */
+  color: #fff; /* Change button text color */
+  cursor: pointer;
+}
+
+/* Style for the close button */
+.modal-content button:last-child {
+  background-color: #6C757D; /* Change close button background color */
+}
+
+/* Hover effect for buttons */
+.modal-content button:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
+
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.select-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  cursor: pointer;
+}
+
+
+
+.selected-option {
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.arrow {
+  border: solid #000;
+  border-width: 0 1px 1px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+}
+
+.dropdown-list {
+  position: relative;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: #fff;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.dropdown-option {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.dropdown-option:hover {
+  background-color: #f0f0f0;
+}
+
+.selected {
+  background-color: dodgerblue;
+}
+
+.container #rad{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.container #rad {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-left: -10px;
+}
+
+.container #rad input{
+  width: auto;
+  margin-left: -10px;
+}
+
+.select_text{
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+
+

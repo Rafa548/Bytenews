@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import { ApiDataService } from '../api-data.service';
-import {publisher, user} from '../interfaces';
+import {author, news, publisher, user} from '../interfaces';
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgForOf, NgIf} from "@angular/common";
 import {NavbarComponent} from "../navbar/navbar.component";
@@ -23,6 +23,8 @@ import { NavbarAdminComponent } from '../navbar-admin/navbar-admin.component';
 })
 export class AdminSingleUserComponent {
   user : any;
+  username : string = "Username";
+  email : string = "Email";
   author : any;
   publisher: any;
   publishers : publisher[] = [];
@@ -30,18 +32,17 @@ export class AdminSingleUserComponent {
   u_id : number;
   userSavedNews : any[] = [];
   userPublishedNews : any[] = [];
+  userComments : any[] = [];
 
   ApiDataService = inject(ApiDataService);
   activeTab: string = 'saved-news'
   isAuthor : boolean = false;
 
-  toggleView() {
-    this.isAuthor = !this.isAuthor;
-  }
+
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.u_id = Number(this.route.snapshot.paramMap.get('id'));
-    this.ApiDataService.getUser(this.u_id).then((user : any) => {
+    this.ApiDataService.getUser(this.u_id).then((user : user) => {
       this.ApiDataService.getPublishers().then((publishers : any[]) => {
         this.publishers = publishers;
         this.selectedPublisher = publishers[0].id;
@@ -49,17 +50,23 @@ export class AdminSingleUserComponent {
         //console.log(typeof this.selectedPublisher);
       });
       this.user = user;
+      this.username = user.username;
+      this.email = user.email;
       //console.log(user);
-      this.ApiDataService.getNewsByUser(this.u_id).then((userNews: any[]) => {
+      this.ApiDataService.getNewsByUser(this.u_id).then((userNews: news[]) => {
         this.userSavedNews = userNews;
         //console.log(userNews);
-      } );
+      });
+      this.ApiDataService.getCommentsByUser(this.u_id).then((userComments: any[]) => {
+        this.userComments = userComments;
+
+      });
       if (user.is_author) {
         this.isAuthor = true;
-        this.ApiDataService.getAuthor(this.u_id).then((author : any) => {
+        this.ApiDataService.getAuthorByUser(this.u_id).then((author : author) => {
           this.author = author;
           //console.log(author);
-          this.ApiDataService.getAuthorNews(this.author.id).then((userNews: any[]) => {
+          this.ApiDataService.getAuthorNews(this.author.id).then((userNews: news[]) => {
             this.userPublishedNews = userNews;
             //console.log(userNews);
           });
@@ -68,12 +75,16 @@ export class AdminSingleUserComponent {
           this.ApiDataService.getPublisher(this.author.publisher).then((publisher: any) => {
             this.publisher = publisher;
             this.selectedPublisher = publisher.id;
-            console.log(publisher);
+            //console.log(publisher);
           });
         });
       }
     });
 
+  }
+
+  toggleView() {
+    this.isAuthor = !this.isAuthor;
   }
 
   viewNewsDetails(id: number) {
@@ -101,10 +112,9 @@ export class AdminSingleUserComponent {
   Save() {
     if (this.isAuthor) {
       if (this.author != undefined) {
-        const publisher_id = Number(this.selectedPublisher);
-        this.author.publisher = publisher_id;
+        this.author.publisher = Number(this.selectedPublisher);
         this.ApiDataService.updateAuthor(this.author).then((response : any) => {
-          console.log(response);
+          //console.log(response);
         } );}
       else {
         const publisher_id = Number(this.selectedPublisher);
@@ -117,7 +127,7 @@ export class AdminSingleUserComponent {
         });
         this.user.is_author = true;
         this.ApiDataService.updateUser(this.user).then((response : any) => {
-          console.log(response);
+          //console.log(response);
         });
 
       }
@@ -127,7 +137,20 @@ export class AdminSingleUserComponent {
       this.ApiDataService.updateUser(this.user).then((response : any) => {
         //console.log(response);
       });
+      this.ApiDataService.deleteAuthor(this.author.id).then((response : any) => {
+        //console.log(response);
+
+      } );
     }
+  }
+
+  deleteComment(id: number) {
+    this.ApiDataService.deleteNewsComment(id).then((response : any) => {
+      this.ApiDataService.getCommentsByUser(this.u_id).then((userComments: any[]) => {
+        this.userComments = userComments;
+        //console.log(userComments);
+      });
+    });
   }
 }
 

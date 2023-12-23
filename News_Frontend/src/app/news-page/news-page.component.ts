@@ -8,6 +8,7 @@ import {NgIf, NgFor} from "@angular/common";
 import { Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommentsComponent } from '../comments/comments.component';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-news-page',
@@ -21,14 +22,19 @@ import { CommentsComponent } from '../comments/comments.component';
 export class NewsPageComponent {
   ApiDataService = inject(ApiDataService);
   selectedNews: any;
-  currentUser = localStorage.getItem('currentUser');
-  userId = localStorage.getItem('currentUserId');
+  AuthService = inject(AuthService);
+  currentUser : any;
+  userId:any;
   user_saved_news: any[] = [];
   author: any = null;
   comments: any[] = [];
   publisher: any = null;
 
   constructor(private router: Router) {
+    this.currentUser = this.AuthService.getUser();
+    if (typeof localStorage !== 'undefined') {
+      this.userId = localStorage.getItem('currentUserId');
+    }
     //get news id from url
     const url = window.location.href;
     const url_split = url.split('/');
@@ -56,7 +62,7 @@ export class NewsPageComponent {
       console.log(news);
       this.user_saved_news = news;
     });
-    
+
   }
 
   redirectAuthor(news : news) {

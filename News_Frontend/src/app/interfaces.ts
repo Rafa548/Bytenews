@@ -1,3 +1,4 @@
+import * as timers from "timers";
 
 export interface user {
     id: number;

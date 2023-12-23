@@ -21,12 +21,9 @@ class CustomUser(AbstractUser):
     )
 
     def save(self, *args, **kwargs):
-        # Check if the user is being created and is not saved yet
         if not self.pk:
-            # Set default roles for a new user
             self.is_admin = False
             self.is_author = False
-            # Perform other operations specific to new user creation
 
         super().save(*args, **kwargs)
     def save_as_author(self, *args, **kwargs):
@@ -49,12 +46,10 @@ class UserProfile(models.Model):
 
 class Publisher(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    # Other attributes specific to publishers/entities, if needed
 
 class Author(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    # Other attributes specific to authors, if needed
 
 
 class News(models.Model):
@@ -64,7 +59,6 @@ class News(models.Model):
     published_by = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True, related_name='published_news')
     tags = models.ManyToManyField(Interest, blank=True)
 
-    # Other fields related to news
 
     def __str__(self):
         return self.title

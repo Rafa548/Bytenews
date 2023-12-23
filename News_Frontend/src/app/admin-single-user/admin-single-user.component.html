@@ -4,8 +4,8 @@
   <div class="card">
     <div class="card-body d-flex justify-content-between align-items-center">
       <div>
-        <p class="card-text">Username: {{ user.username }}</p>
-        <p class="card-text">Email: {{ user.email }}</p>
+        <p class="card-text">Username: {{ username }}</p>
+        <p class="card-text">Email: {{ email }}</p>
 
         <label for="publisherSelect" class="form-label" *ngIf="isAuthor">Publisher:</label>
         <select class="form-select" id="publisherSelect" [(ngModel)]="selectedPublisher" *ngIf="isAuthor">
@@ -29,7 +29,7 @@
     <li class="nav-item" role="presentation">
       <a class="nav-link" (click)="activeTab = 'comments'" [class.active]="activeTab === 'comments'">Comments</a>
     </li>
-    <li class="nav-item" role="presentation" *ngIf="user.is_author">
+    <li class="nav-item" role="presentation" *ngIf="isAuthor">
       <a class="nav-link" (click)="activeTab = 'posted-news'" [class.active]="activeTab === 'posted-news'">Posted News</a>
     </li>
   </ul>
@@ -78,8 +78,23 @@
       </div>
     </div>
     <div *ngIf="activeTab === 'comments'">
-      <h4>This is the Comments Tab</h4>
-      <p>Some default content for Comments...</p>
+      <div class="card">
+        <div class="card-body">
+          <div *ngFor="let comment of userComments" class="card mb-3">
+            <div class="card-body">
+              <p class="card-text">{{ comment.text }}</p>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" (click)="viewNewsDetails(comment.news)">
+                  <i class="fas fa-info-circle"></i> Details
+                </button>
+                <button class="btn btn-danger " (click)="deleteComment(comment.id)">
+                  <i class="fas fa-trash-alt"></i> Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

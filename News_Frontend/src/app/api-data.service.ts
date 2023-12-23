@@ -12,9 +12,6 @@ export class ApiDataService {
   async login(u_name: string, password: string): Promise<any> {
     const url = this.baseURL + '/login';
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({username: u_name, password: password}) });
-    if (!data.ok) {
-      return "ERROR";
-    }
     return await data.json() ?? undefined;
   }
 
@@ -42,6 +39,12 @@ export class ApiDataService {
     return await data.json() ?? undefined;
   }
 
+  async getCommentsByUser(id: number): Promise<any> {
+    const url = this.baseURL + '/comments/'+ 'user/' + id ;
+    const data = await fetch(url, {method: 'GET'});
+    return await data.json() ?? undefined;
+  }
+
   async postComment(id: number, user_id: any, comment: string): Promise<any> {
     const url = this.baseURL + '/news/' + id + '/comment/';
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({user: user_id, text: comment}) });
@@ -56,6 +59,12 @@ export class ApiDataService {
 
   async deleteNew(id: number): Promise<any> {
     const url = this.baseURL + '/news/' + id;
+    const data = await fetch(url, {method: 'DELETE'});
+    return await data.statusText ?? undefined;
+  }
+
+  async deleteAuthor(id: number): Promise<any> {
+    const url = this.baseURL + '/authors/' + id;
     const data = await fetch(url, {method: 'DELETE'});
     return await data.statusText ?? undefined;
   }
@@ -155,6 +164,12 @@ export class ApiDataService {
 
   async registerUser(json:{email:string,password:string,username:string,firstName:string,lastName:string}): Promise<any> {
     const url = this.baseURL + '/register';
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
+    return await data.statusText ?? undefined;
+  }
+
+  async registerAdmin(json:{email:string,password:string,username:string,firstName:string,lastName:string,is_author:boolean}): Promise<any> {
+    const url = this.baseURL + '/admin/add_user';
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(json) });
     return await data.statusText ?? undefined;
   }

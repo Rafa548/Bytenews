@@ -1,7 +1,8 @@
 <app-admin-all-details-page
   [title]="'News:'"
-  [items]="users"
+  [users]="users"
   [is_user]="true"
   (childViewEvent)="navigateToUserDetails($event)"
-  (childDeleteEvent)="deleteUser($event)">
+  (childDeleteEvent)="deleteUser($event)"
+  (modalAddUserClicked)="reload()">
 </app-admin-all-details-page>
