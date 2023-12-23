@@ -28,6 +28,7 @@ export class AuthorProfileComponent {
   newsArticles: any[] = [];
   selectedNews: any = {};
   authors: Map<number, string> = new Map<number, string>();
+  publishers: Map<number, string> = new Map<number, string>();
   author_data:any = {};
   newsTitle: string | undefined;
   newsDescription: string | undefined;
@@ -54,6 +55,10 @@ export class AuthorProfileComponent {
               const published = this.newsArticles[i].published_by;
               this.ApiDataService.getAuthor(published).then((author: author) => {
                 //console.log(author);
+                this.ApiDataService.getPublisher(author.publisher).then((publisher : publisher) => {
+                  //console.log(publisher);
+                  this.publishers.set(this.newsArticles[i].id, publisher.name);
+                });
                 this.ApiDataService.getUser(author.user).then((user: user) => {
                   //console.log(user);
                   this.authors.set(this.newsArticles[i].id, user.username);
@@ -70,6 +75,16 @@ export class AuthorProfileComponent {
     this.selectedNews = news;
     const author_id = news.published_by;
     this.router.navigate(['/author', author_id]);
+  }
+
+  redirectPublisher(news : news) {
+    this.selectedNews = news;
+    const published = news.published_by;
+    this.ApiDataService.getAuthor(published).then((author : author) => {
+      //console.log(author);
+      const publisher_id = author.publisher;
+      this.router.navigate(['/publisher', publisher_id]);
+    });
   }
 
   closeEditModal() {
