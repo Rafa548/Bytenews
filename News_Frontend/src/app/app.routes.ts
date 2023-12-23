@@ -17,6 +17,7 @@ import {AdminAllInterestsComponent} from "./admin-all-interests/admin-all-intere
 import {AdminSingleInterestComponent} from "./admin-single-interest/admin-single-interest.component";
 import {AdminAllPublishersComponent} from "./admin-all-publishers/admin-all-publishers.component";
 import {AdminSinglePublisherComponent} from "./admin-single-publisher/admin-single-publisher.component";
+import { PublisherPageComponent } from './publisher-page/publisher-page.component';
 import {AuthGuard} from "./auth.guard";
 import {AdminAuthGuard} from "./admin-auth.guard";
 
@@ -29,6 +30,10 @@ export const routes: Routes = [
     { path: 'author/:id', component: AuthorNewsComponent},
     { path: 'news/:id', component: NewsPageComponent},
     { path: 'news/interest/:id', component: NewsInterestComponent},
+    { path: 'publisher/:id', component: PublisherPageComponent},
+
+
+
     { path: 'author/:id/profile', component: AuthorProfileComponent, canActivate: [AuthGuard]},
     { path: 'admin/dashboard', component: AdminDashboardComponent,canActivate: [AdminAuthGuard] },
     { path: 'admin/news', component: AdminAllNewsComponent,canActivate: [AdminAuthGuard] },

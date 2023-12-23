@@ -18,12 +18,14 @@ export class NewsCardDarkComponent {
   @Input() news: news = { id: 0, title: '', description : '', content : '', published_by : 0, tags : []};
   @Input() news_author: string | undefined;
   @Input() is_saved: boolean = false;
+  @Input() publisher: string | undefined;
 
 
 
 
   @Input() showButton: boolean = false;
   @Output() author_click : EventEmitter<any> = new EventEmitter<any>();
+  @Output() publisher_click : EventEmitter<any> = new EventEmitter<any>();
   @Output() click_save : EventEmitter<any> = new EventEmitter<any>();
   @Output() click_unsave : EventEmitter<any> = new EventEmitter<any>();
   @Output() click_tag : EventEmitter<any> = new EventEmitter<any>();
@@ -34,6 +36,10 @@ export class NewsCardDarkComponent {
 
   onAuthorClick() {
     this.author_click.emit();
+  }
+
+  onPublisherClick() {
+    this.publisher_click.emit();
   }
 
   ClickSave() {

@@ -7,56 +7,50 @@ import {author, interest, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { AuthService } from '../auth.service';
 
 @Component({
-  selector: 'app-news-interest',
+  selector: 'app-publisher-page',
   standalone: true,
   imports: [NewsCardComponent, NewsCardDarkComponent, NewsCardLightComponent, NgIf, NgFor, NavbarComponent],
-  templateUrl: './news-interest.component.html',
-  styleUrl: './news-interest.component.css'
+  templateUrl: './publisher-page.component.html',
+  styleUrl: './publisher-page.component.css'
 })
-export class NewsInterestComponent {
+export class PublisherPageComponent {
   ApiDataService = inject(ApiDataService);
   newsArticles: any[] = [];
   selectedNews: any = null;
-  AuthService = inject(AuthService);
   authors: Map<number, string> = new Map<number, string>();
   publishers: Map<number, string> = new Map<number, string>();
-  currentUser :any;
-  userId :any;
+  currentUser = localStorage.getItem('currentUser');
+  userId = localStorage.getItem('currentUserId');
   user_saved_news: any[] = [];
-  interest: interest = { id: 0, name: ''};
-  interest_id: number = 0;
+  publisher: publisher = { id: 0, name: ''};
+  publisher_id: number = 0;
   url = window.location.href;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.load_content();
-    this.currentUser = this.AuthService.getUser();
-    if (typeof localStorage !== 'undefined') {
-      this.userId = localStorage.getItem('currentUserId');
-    }
-
+    
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const url = window.location.href;
-
+      
       this.load_content();
     });
   }
 
   load_content() {
-
+    
     const url = window.location.href;
     const url_split = url.split('/');
     const tag_id = url_split[url_split.length - 1];
     console.log(tag_id);
     //convert news id to int
     const tag_id_int = parseInt(tag_id);
-    this.interest_id = tag_id_int;
-    this.ApiDataService.getNewsByTag(tag_id_int).then((news : any) => {
+    this.publisher_id = tag_id_int;
+    this.ApiDataService.getNewsByPublisher(tag_id_int).then((news : any) => {
       console.log(news);
       this.newsArticles = news;
       for (let i = 0; i < this.newsArticles.length; i++) {
@@ -80,13 +74,12 @@ export class NewsInterestComponent {
       this.user_saved_news = news;
     });
 
-    this.ApiDataService.getInterest(tag_id_int).then((interest : interest) => {
-      console.log(interest);
-      this.interest = interest;
+    this.ApiDataService.getPublisher(tag_id_int).then((publisher : publisher) => {
+      console.log(publisher);
+      this.publisher = publisher;
     });
-
+    
   }
-
 
   redirectAuthor(news : news) {
     this.selectedNews = news;

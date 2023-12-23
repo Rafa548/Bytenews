@@ -6,7 +6,7 @@
   <h1 class="h1 text-center" id="pageHeaderTitle">My News</h1>
   <div class="row">
     <div class="col-md-12" *ngFor="let news2 of newsArticles">
-      <app-news-card-dark [showButton]="true"   [news]="news2" [news_author]="authors.get(news2.id)" (author_click)="redirectAuthor(news2)" (deleteClick)="onDeleteClick(news2)"
+      <app-news-card-dark [showButton]="true"   [news]="news2" [news_author]="authors.get(news2.id)" (author_click)="redirectAuthor(news2)" [publisher]="publishers.get(news2.id)" (deleteClick)="onDeleteClick(news2)" (publisher_click)="redirectPublisher(news2)"
                           (editClick)="onEditClick(news2)"></app-news-card-dark>
     </div>
   </div>
