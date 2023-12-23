@@ -29,9 +29,11 @@ export class NewsPageComponent {
   author: any = null;
   comments: any[] = [];
   publisher: any = null;
+  isAuthor: boolean = false;
 
   constructor(private router: Router) {
     this.currentUser = this.AuthService.getUser();
+    this.isAuthor = this.currentUser.is_author;
     if (typeof localStorage !== 'undefined') {
       this.userId = localStorage.getItem('currentUserId');
     }

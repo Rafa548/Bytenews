@@ -1,0 +1,16 @@
+<app-navbar [isAuthor]="this.isAuthor"></app-navbar>
+<div *ngFor="let comment of comments" class="comment" (click)="redirectToNewsPage(comment.news)">
+  <div class="d-flex flex-row user-info">
+    <div class="d-flex flex-column justify-content-start ml-2">
+      <span class="d-block font-weight-bold name">New {{comment.news}}</span>
+      <span class="date text-black-50"><i class="fas fa-calendar-alt mr-2"></i>{{ comment.created_at | date:'medium' }}</span>
+    </div>
+
+    <div class="actions ml-auto button-container"> <!-- ml-auto pushes it to the right -->
+            <i *ngIf="comment.user == u_id"  (click)="deleteComment(comment)" class="fa fa-trash" aria-hidden="true"></i>
+    </div>
+  </div>
+  <div class="mt-2">
+    <p class="comment-text">{{ comment.text }}</p>
+  </div>
+</div>

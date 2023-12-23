@@ -29,10 +29,12 @@ export class NewsInterestComponent {
   interest: interest = { id: 0, name: ''};
   interest_id: number = 0;
   url = window.location.href;
+  isAuthor: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.load_content();
     this.currentUser = this.AuthService.getUser();
+    this.isAuthor = this.currentUser.is_author;
     if (typeof localStorage !== 'undefined') {
       this.userId = localStorage.getItem('currentUserId');
     }

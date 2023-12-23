@@ -102,21 +102,26 @@ export class AdminAllDetailsPageComponent {
       this.i_name = '';
       this.ScrollToBottom();
       this.modalAddClicked.emit();
+      //console.log("response",response)
     });
-    if (this.is_author) {
-      this.ApiDataService.getUsers().then((users : any[]) => {
-        this.newUser = users[users.length - 1];
-        //console.log(this.newUser);
-        this.author = {
-          user: this.newUser.id,
-          publisher: this.selectedPublisher
-        }
-        this.ApiDataService.createAuthor(this.author).then((response: any) => {
-          //console.log(response);
-        });
-      });
-    }
 
+    if (this.is_author) {
+      const publisher = this.selectedPublisher;
+      setTimeout(() => {
+        this.ApiDataService.getUsers().then((users: any[]) => {
+          const last_user = users[users.length - 1];
+          //console.log(last_user);
+          // console.log(this.newUser);
+          this.author = {
+            user: last_user.id,
+            publisher: publisher
+          };
+          console.log("author", this.author);
+          this.ApiDataService.createAuthor(this.author).then((response: any) => {
+          });
+        });
+      }, 500);
+    }
   }
 
   openAddModalUser() {

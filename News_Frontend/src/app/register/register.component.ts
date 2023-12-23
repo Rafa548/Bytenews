@@ -34,7 +34,6 @@ export class RegisterComponent {
     else{
       const json ={"email":this.email,"password":this.password,"username":this.username,"firstName":this.firstName,"lastName":this.lastName};
       this.ApiDataService.registerUser(json).then(r => {
-        console.log(r);
         if (r == "Created") {
           this.router.navigate(['login']);
         }

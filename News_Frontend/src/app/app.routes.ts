@@ -18,6 +18,7 @@ import {AdminSingleInterestComponent} from "./admin-single-interest/admin-single
 import {AdminAllPublishersComponent} from "./admin-all-publishers/admin-all-publishers.component";
 import {AdminSinglePublisherComponent} from "./admin-single-publisher/admin-single-publisher.component";
 import { PublisherPageComponent } from './publisher-page/publisher-page.component';
+import {CommentsPageComponent} from "./comments-page/comments-page.component";
 import {AuthGuard} from "./auth.guard";
 import {AdminAuthGuard} from "./admin-auth.guard";
 
@@ -42,5 +43,6 @@ export const routes: Routes = [
     { path: 'admin/publishers', component: AdminAllPublishersComponent, canActivate: [AdminAuthGuard]},
     { path: 'admin/publishers/:id', component: AdminSinglePublisherComponent, canActivate: [AdminAuthGuard]},
     { path: 'unauthorized', component: UnauthorizedComponent},
+    { path: 'user/comments/:id', component: CommentsPageComponent}
 
 ];

@@ -3,6 +3,7 @@ import { NewsCardComponent } from '../news-card/news-card.component';
 import { NewsCardDarkComponent } from '../news-card-dark/news-card-dark.component';
 import { NewsCardLightComponent } from '../news-card-light/news-card-light.component';
 import {ApiDataService} from "../api-data.service";
+import {AuthService} from "../auth.service";
 import {author, interest, news, publisher, user} from "../interfaces";
 import {NgIf, NgFor} from "@angular/common";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,6 +18,8 @@ import { NavbarComponent } from '../navbar/navbar.component';
 })
 export class PublisherPageComponent {
   ApiDataService = inject(ApiDataService);
+  AuthService = inject(AuthService);
+
   newsArticles: any[] = [];
   selectedNews: any = null;
   authors: Map<number, string> = new Map<number, string>();
@@ -27,22 +30,26 @@ export class PublisherPageComponent {
   publisher: publisher = { id: 0, name: ''};
   publisher_id: number = 0;
   url = window.location.href;
+  isAuthor: boolean = false;
 
   constructor(private router: Router, private route: ActivatedRoute) {
     this.load_content();
-    
+
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const url = window.location.href;
-      
+
       this.load_content();
     });
   }
 
   load_content() {
-    
+    this.ApiDataService.getUser(Number(this.userId)).then((user : any) => {
+      this.isAuthor = user.is_author;
+    });
+
     const url = window.location.href;
     const url_split = url.split('/');
     const tag_id = url_split[url_split.length - 1];
@@ -78,7 +85,7 @@ export class PublisherPageComponent {
       console.log(publisher);
       this.publisher = publisher;
     });
-    
+
   }
 
   redirectAuthor(news : news) {

@@ -26,6 +26,7 @@ export class AuthorNewsComponent {
   userId: any
   user_saved_news: any[] = [];
   author_name: string = "";
+  isAuthor: boolean = false;
 
   constructor(private router: Router) {
     const url = window.location.href;
@@ -34,6 +35,7 @@ export class AuthorNewsComponent {
     const author_id_int = parseInt(author_id);
     console.log(author_id);
     this.currentUser = this.AuthService.getUser();
+    this.isAuthor = this.currentUser.is_author;
     if (typeof localStorage !== 'undefined') {
       this.userId = localStorage.getItem('currentUserId');
     }

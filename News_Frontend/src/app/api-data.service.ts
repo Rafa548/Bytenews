@@ -5,7 +5,7 @@ import {author, interest, news, publisher, user} from "./interfaces";
   providedIn: 'root'
 })
 export class ApiDataService {
-  baseURL = 'http://rafa548.pythonanywhere.com';
+  baseURL = '//localhost:8000';
 
   constructor() { }
 
