@@ -216,9 +216,6 @@ export class ApiDataService {
   }
 
 
-
-
-
   async updateAuthor(author : author): Promise<author> {
     //console.log(author)
     const id = author.id;
@@ -239,6 +236,20 @@ export class ApiDataService {
     const url = this.baseURL + '/authors/' ;
     console.log(url)
     const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(author) });
+    return await data.json() ?? undefined;
+  }
+
+  async createInterest(interest : any): Promise<interest> {
+    const url = this.baseURL + '/interests/' ;
+    console.log(url)
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(interest) });
+    return await data.json() ?? undefined;
+  }
+
+  async createPublisher(publisher : any): Promise<publisher> {
+    const url = this.baseURL + '/publishers/' ;
+    console.log(url)
+    const data = await fetch(url, {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(publisher) });
     return await data.json() ?? undefined;
   }
 }

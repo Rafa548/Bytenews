@@ -29,6 +29,7 @@ export class AdminAllDetailsPageComponent {
   @Input() is_news: boolean = false;
   @Input() is_user: boolean = false;
   @Input() is_interest: boolean = false;
+  @Input() is_publisher: boolean = false;
   @Output() childViewEvent = new EventEmitter<any>();
   @Output() childDeleteEvent = new EventEmitter<any>();
   @Output() ScroolToBottomClicked = new EventEmitter<any>();
@@ -45,6 +46,7 @@ export class AdminAllDetailsPageComponent {
   publishers: any[] = [];
   selectedPublisher: any;
   i_name: any;
+  p_name: any;
   ApiDataService = inject(ApiDataService);
   is_author: boolean = false;
 
@@ -143,7 +145,43 @@ export class AdminAllDetailsPageComponent {
   }
 
   addInterest() {
+    this.ApiDataService.createInterest({name: this.i_name}).then((response: any) => {
+      console.log(response);
+      this.closeModalInterest();
+      this.i_name = '';
+      this.ScrollToBottom();
+      this.modalAddUserClicked.emit();
+    });
 
+  }
+
+  openAddModalPublisher() {
+    console.log("open");
+    this.isModalOpen = true;
+    const modal = document.getElementById('addModalPublisher');
+    console.log(modal);
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  }
+
+  addPublisher() {
+    this.ApiDataService.createPublisher({name: this.p_name}).then((response: any) => {
+      console.log(response);
+      this.closeModalPublisher();
+      this.i_name = '';
+      this.ScrollToBottom();
+      this.modalAddUserClicked.emit();
+    });
+
+  }
+
+  closeModalPublisher() {
+    this.isModalOpen = false;
+    const modal = document.getElementById('addModalPublisher');
+    if (modal) {
+      modal.style.display = 'none';
+    }
   }
 }
 

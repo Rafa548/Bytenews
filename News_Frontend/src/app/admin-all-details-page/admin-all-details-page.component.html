@@ -55,6 +55,26 @@
     </div>
   </div>
 
+  <div class="row mt-4" *ngIf="is_publisher">
+    <div class="col-md-4 mb-4" *ngFor="let publisher of items">
+      <app-card
+        [title]="publisher.name"
+        (viewClicked)="handleViewClickEvent(publisher.id)"
+        (deleteClicked)="handleDeleteClickEvent(publisher.id)">
+      </app-card>
+    </div>
+
+    <div class="col-md-4 mb-4" >
+      <div class="card">
+        <div class="card-body d-flex justify-content-center align-items-center">
+          <button class="btn btn-success btn-lg" (click)="openAddModalPublisher()">
+            <i class="fa-solid fa-plus" ></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container mt-5">
     <div class="scroll-to-bottom">
       <button class="btn btn-primary" (click)="ScrollToBottom()">
@@ -158,6 +178,27 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal" id="addModalPublisher" *ngIf="is_publisher">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Publisher</h5>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <form (ngSubmit)="addPublisher()">
+            <div class="mb-3">
+              <label for="p_name" class="form-label">Name:</label>
+              <input type="text" id="p_name" name="p_name" class="form-control" [(ngModel)]="p_name" required>
+            </div>
+            <button type="submit" class="btn btn-success">Add</button>
+            <button type="button" class="btn btn-secondary" (click)="closeModalPublisher()">Close</button>
+          </form>
+        </div>
+      </div>
+    </div>
 </div>
 
 
